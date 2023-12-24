@@ -1,6 +1,16 @@
 # Project Dilemma
 ## Table of Contents
+* [Installation](#installation)
 * [Configuration](#configuration)
+  * [Config File Location](#config-file-location)
+  * [Dynamic Imports](#dynamic-imports)
+* [Algorithms](#algorithms)
+* [Simulations](#simulations)
+
+## Installation
+1. Download git repo
+2. Change into repo root directory
+3. Run `pip install .`
 
 ## Configuration
 ### Config File Location
@@ -55,3 +65,9 @@ used to tell the program where to look for the imports:
 * object
   * The object to import
     * For builtin simulations, specify the simulation class name here
+
+## Algorithms
+Coming soon, see `project_dilemma.interfaces.algorithm` for more information.
+
+## Simulations
+Coming soon, see `project_dilemma.interfaces.simulation` for more information.
