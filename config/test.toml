@@ -1,0 +1,6 @@
+simulation_id = "Test Simulation"
+algorithms_directory = "algorithms/"
+nodes = [ { node_id = "node_1", algorithm = { file = "tit_for_tat.py", object = "TitForTat" } },
+          { node_id = "node_2", algorithm = { file = "tit_for_tat.py", object = "TitForTat" } } ]
+simulation = { object = "BasicSimulation" }
+simulation_arguments = { rounds = 10 }
