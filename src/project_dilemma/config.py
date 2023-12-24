@@ -22,6 +22,7 @@ class NodeConfig(TypedDict):
 class ProjectDilemmaConfig(TypedDict):
     algorithms_directory: str
     nodes: List[NodeConfig]
+    outfile: str
     simulation: DynamicImport
     simulation_id: str
     simulation_arguments: Dict[str, Any]
@@ -46,6 +47,9 @@ def arguments() -> dict:
                                dest='algorithms_directory')
     parser_config.add_argument('--simulations-directory', help='directory containing simulation files',
                                dest='simulations_directory')
+
+    parser_out = parser.add_argument_group('output')
+    parser_out.add_argument('-o', '--outfile', help='output the results as JSON')
 
     if not len(sys.argv):
         parser.print_help()

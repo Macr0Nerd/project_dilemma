@@ -6,3 +6,4 @@ nodes = [ { node_id = "node_1", algorithm = { file = "tit_for_tat.py", object = 
           { node_id = "node_4", algorithm = { file = "tit_for_tat.py", object = "TitForTat" } } ]
 simulation = { object = "MultiprocessStandardSimulation" }
 simulation_arguments = { rounds = 10 }
+outfile = "results/test.json"

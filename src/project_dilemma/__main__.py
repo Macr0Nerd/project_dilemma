@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import json
 import sys
 
 from project_dilemma.config import load_configuration, ProjectDilemmaConfig
@@ -32,7 +33,14 @@ def main() -> int:
         **config['simulation_arguments']
     )
 
-    simulation.run_simulation()
+    results = simulation.run_simulation()
+
+    try:
+        with open(config['outfile'], 'w') as f:
+            json.dump(results, f)
+    except FileNotFoundError:
+        print('Output file could not be written to')
+        return 1
 
     return 0
 
