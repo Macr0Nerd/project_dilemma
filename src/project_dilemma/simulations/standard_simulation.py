@@ -22,25 +22,24 @@ class StandardSimulation(BasicSimulation):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    @classmethod
-    def run_simulation(cls) -> RoundList:
+    def run_simulation(self) -> RoundList:
         """runs the simulation
 
         :return: simulation results
         :rtype: RoundList
         """
-        cls.round_list.append([])
-        for index, first_node in enumerate(cls.nodes):
-            for second_node in cls.nodes[index:]:
+        self.round_list.append([])
+        for index, first_node in enumerate(self.nodes):
+            for second_node in self.nodes[index:]:
                 simulation = BasicSimulation(
                     f'{first_node.node_id}:{second_node.node_id}',
                     [first_node, second_node],
-                    rounds=cls.rounds,
-                    mutations_per_mille=cls.mutations_per_mille,
-                    round_mutations=cls.round_mutations,
-                    simulation_mutations=cls.simulation_mutations
+                    rounds=self.rounds,
+                    mutations_per_mille=self.mutations_per_mille,
+                    round_mutations=self.round_mutations,
+                    simulation_mutations=self.simulation_mutations
                 )
 
-                cls.round_list[-1].append(simulation.run_simulation())
+                self.round_list[-1].append(simulation.run_simulation())
 
-        return cls.round_list
+        return self.round_list

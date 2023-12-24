@@ -35,30 +35,29 @@ class MultiprocessStandardSimulation(BasicSimulation):
         """callback to collect simulation results from the pool"""
         self.round_list.append(result)
 
-    @classmethod
-    def run_simulation(cls) -> RoundList:
+    def run_simulation(self) -> RoundList:
         """runs the simulation
 
         :return: simulation results
         :rtype: RoundList
         """
-        cls.round_list.append([])
+        self.round_list.append([])
         simulations = []
-        for index, first_node in enumerate(cls.nodes):
-            for second_node in cls.nodes[index:]:
+        for index, first_node in enumerate(self.nodes):
+            for second_node in self.nodes[index:]:
                 simulations.append(BasicSimulation(
                     [first_node, second_node],
-                    rounds=cls.rounds,
-                    mutations_per_mille=cls.mutations_per_mille,
-                    round_mutations=cls.round_mutations,
-                    simulation_mutations=cls.simulation_mutations
+                    rounds=self.rounds,
+                    mutations_per_mille=self.mutations_per_mille,
+                    round_mutations=self.round_mutations,
+                    simulation_mutations=self.simulation_mutations
                 ))
 
-        pool = multiprocessing.Pool(processes=cls.pool_size)
+        pool = multiprocessing.Pool(processes=self.pool_size)
         for simulation in simulations:
-            pool.apply_async(simulation.run_simulation, callback=cls._collect_round)
+            pool.apply_async(simulation.run_simulation, callback=self._collect_round)
 
         pool.close()
         pool.join()
 
-        return cls.round_list
+        return self.round_list
