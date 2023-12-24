@@ -14,7 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 from abc import abstractmethod
-from typing import List, Optional, Self
+from collections.abc import Sequence
+from typing import Optional, Self
 
 from project_dilemma.interfaces.base import Base, RoundList
 
@@ -36,17 +37,17 @@ class Algorithm(Base):
 
     algorithm_id: str
     mutable: bool
-    mutations: Optional[List[Self]]
+    mutations: Optional[Sequence[Self]]
 
-    def __init__(self, mutations: List[Self] = None) -> None:
+    def __init__(self, mutations: Sequence[Self] = None) -> None:
         self.mutations = mutations
 
     @property
-    def mutations(self) -> Optional[List[Self]]:
+    def mutations(self) -> Optional[Sequence[Self]]:
         return self.mutations
 
     @mutations.setter
-    def mutations(self, mutations: Optional[List[Self]]):
+    def mutations(self, mutations: Optional[Sequence[Self]]):
         self.mutable = bool(mutations)
         self.mutations = mutations
 

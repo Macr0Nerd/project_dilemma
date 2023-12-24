@@ -14,7 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import random
-from typing import List
 
 from project_dilemma.interfaces.algorithm import Algorithm
 from project_dilemma.interfaces.base import Base
