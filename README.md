@@ -1,4 +1,8 @@
 # Project Dilemma
+Project Dilemma is a simulation tool for testing algorithms in the prisoner's dilemma.
+It provides a standard interface to define both algorithm and simulation classes so that they may be easily tested.
+Inspired by [this Veritasium](https://youtu.be/mScpHTIi-kM?si=7pe8XjmjjWLhMup6) video.
+
 ## Table of Contents
 * [Installation](#installation)
 * [Configuration](#configuration)
@@ -71,3 +75,21 @@ Coming soon, see `project_dilemma.interfaces.algorithm` for more information.
 
 ## Simulations
 Coming soon, see `project_dilemma.interfaces.simulation` for more information.
+
+## License
+Copyright 2023 Gabriele Ron
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+---
+This project utilizes the [platformdirs](https://github.com/platformdirs/platformdirs) project which is licensed under
+the MIT License. Copyright (c) 2010-202x The platformdirs developers
