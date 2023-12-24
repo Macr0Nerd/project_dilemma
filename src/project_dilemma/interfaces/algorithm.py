@@ -38,8 +38,7 @@ class Algorithm(Base):
     mutable: bool
     mutations: Optional[List[Self]]
 
-    def __init__(self, algorithm_id: str, mutations: List[Self] = None) -> None:
-        self.algorithm_id = algorithm_id
+    def __init__(self, mutations: List[Self] = None) -> None:
         self.mutations = mutations
 
     @property

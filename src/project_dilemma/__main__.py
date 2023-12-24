@@ -15,8 +15,25 @@ limitations under the License.
 """
 import sys
 
+from project_dilemma.config import load_configuration, ProjectDilemmaConfig
+from project_dilemma.object_loaders import create_nodes, load_algorithms, load_simulation
+
 
 def main() -> int:
+    config: ProjectDilemmaConfig = load_configuration()
+
+    simulation_class = load_simulation(config)
+    algorithms_map = load_algorithms(config)
+    nodes = create_nodes(config, algorithms_map)
+
+    simulation = simulation_class.__init__(
+        simulation_id=config['simulation_id'],
+        nodes=nodes,
+        **config['simulation_arguments']
+    )
+
+    simulation.run_simulation()
+
     return 0
 
 

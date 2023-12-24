@@ -39,10 +39,9 @@ class Node(Base):
     node_id: str
     algorithm: Algorithm
 
-    def __init__(self, node_id: str, algorithm: Algorithm, mutations: List[Algorithm]):
+    def __init__(self, node_id: str, algorithm: Algorithm):
         self.node_id = node_id
         self.algorithm = algorithm
-        self.mutations = mutations
 
     def mutate(self):
         """set the node to a random algorithm mutation"""

@@ -33,34 +33,7 @@ class StandardSimulation(BasicSimulation):
         for index, first_node in enumerate(cls.nodes):
             for second_node in cls.nodes[index:]:
                 simulation = BasicSimulation(
-                    [first_node, second_node],
-                    rounds=cls.rounds,
-                    mutations_per_mille=cls.mutations_per_mille,
-                    round_mutations=cls.round_mutations,
-                    simulation_mutations=cls.simulation_mutations
-                )
-
-                cls.round_list[-1].append(simulation.run_simulation())
-
-        return cls.round_list
-
-
-class MultiprocessingStandardSimulation(BasicSimulation):
-    """runs each node against every other node and itself using multiprocessing"""
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
-    @classmethod
-    def run_simulation(cls) -> RoundList:
-        """runs the simulation
-
-        :return: simulation results
-        :rtype: RoundList
-        """
-        cls.round_list.append([])
-        for index, first_node in enumerate(cls.nodes):
-            for second_node in cls.nodes[index:]:
-                simulation = BasicSimulation(
+                    f'{first_node.node_id}:{second_node.node_id}',
                     [first_node, second_node],
                     rounds=cls.rounds,
                     mutations_per_mille=cls.mutations_per_mille,

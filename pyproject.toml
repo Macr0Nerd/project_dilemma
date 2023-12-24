@@ -30,6 +30,9 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Topic :: Games/Entertainment :: Simulation"
 ]
+dependencies = [
+    "platformdirs~=4.1.0"
+]
 
 [project.urls]
 Repository = "https://github.com/Macr0Nerd/project_dilemma"
