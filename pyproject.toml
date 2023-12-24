@@ -35,7 +35,7 @@ classifiers = [
 Repository = "https://github.com/Macr0Nerd/project_dilemma"
 
 [project.scripts]
-project_dilemma = "project_dilemma.main:main"
+project_dilemma = "project_dilemma.__main__:main"
 
-[tool.setuptools]
+[tool.setuptools.dynamic]
 version = {attr = "project_dilemma.__version__"}
