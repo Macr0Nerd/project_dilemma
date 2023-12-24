@@ -26,7 +26,7 @@ def main() -> int:
     algorithms_map = load_algorithms(config)
     nodes = create_nodes(config, algorithms_map)
 
-    simulation = simulation_class.__init__(
+    simulation = simulation_class(
         simulation_id=config['simulation_id'],
         nodes=nodes,
         **config['simulation_arguments']

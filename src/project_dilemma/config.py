@@ -39,10 +39,9 @@ def arguments() -> dict:
         epilog='Developed by Gabriele A. Ron (developer@groncyber.com)'
     )
 
-    parser.add_argument('simulation', help='simulation to run')
-
     parser_config = parser.add_argument_group('configuration')
     parser_config.add_argument('-c', '--config', help='specify configuration file to use')
+    parser_config.add_argument('--simulation', help='simulation to run')
     parser_config.add_argument('--algorithms-directory', help='directory containing algorithm files',
                                dest='algorithms_directory')
     parser_config.add_argument('--simulations-directory', help='directory containing simulation files',

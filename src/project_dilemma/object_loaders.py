@@ -16,16 +16,20 @@ def load_algorithms(config: ProjectDilemmaConfig) -> Dict[str, Algorithm]:
     :return: map of algorithm class names to algorithms
     :rtype: Dict[str, Algorithm]
     """
+    sys.path.append(config['algorithms_directory'])
+
     algorithms = [node['algorithm'] for node in config['nodes']]
     algorithm_map: Dict[str, Algorithm] = {}
 
     for algorithm in algorithms:
-        algorithm_file = os.path.abspath(os.path.join(config['algorithms_directory'], algorithm['file']))
-        if not os.path.exists(algorithm_file):
-            print(f'Algorithm file {algorithm_file} could not be found')
+        if algorithm_map.get(algorithm['object']):
+            continue
+
+        if not os.path.exists(os.path.join(config['algorithms_directory'], algorithm['file'])):
+            print(f"Algorithm file {algorithm['file']} could not be found")
             sys.exit(1)
 
-        algorithm_module = importlib.import_module(algorithm_file.strip('.py'))
+        algorithm_module = importlib.import_module(algorithm['file'].strip('.py'))
         algorithm_map[algorithm['object']] = getattr(algorithm_module, algorithm['object'])
 
     return algorithm_map
@@ -44,12 +48,13 @@ def load_simulation(config: ProjectDilemmaConfig) -> Simulation:
             print('A simulations directory is required to use user provided simulations')
             sys.exit(1)
 
-        simulation_file = os.path.abspath(os.path.join(config['simulations_directory'], config['simulation']['file']))
-        if not os.path.exists(simulation_file):
+        sys.path.append(config['simulations_directory'])
+
+        if not os.path.exists(os.path.join(config['simulations_directory'], config['simulation']['file'])):
             print('Simulation file could not be found')
             sys.exit(1)
 
-        simulation_module = importlib.import_module(simulation_file.strip('.py'))
+        simulation_module = importlib.import_module(config['simulation']['file'].strip('.py'))
         simulation = getattr(simulation_module, config['simulation']['object'])
     else:
         simulation = simulations_map[config['simulation']['object']]
