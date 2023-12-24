@@ -39,7 +39,7 @@ class Simulation(Base):
     ]
 
     simulation_id: str
-    nodes: Sequence[Node]
+    _nodes: Sequence[Node]
 
     @abstractmethod
     def __init__(self, simulation_id: str, nodes: Sequence[Node]):
@@ -48,18 +48,17 @@ class Simulation(Base):
 
     @property
     def nodes(self) -> Sequence[Node]:
-        return self.nodes
+        return self._nodes
 
     @nodes.setter
     def nodes(self, nodes: Sequence[Node]):
         if max(Counter([node.node_id for node in nodes]).values()) > 1:
             raise ValueError('All node ids provided must be unique')
 
-        self.nodes = nodes
+        self._nodes = nodes
 
-    @classmethod
     @abstractmethod
-    def run_simulation(cls) -> RoundList:
+    def run_simulation(self) -> RoundList:
         """run the simulation
 
         :return: simulation results

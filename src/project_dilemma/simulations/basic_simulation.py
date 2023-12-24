@@ -54,27 +54,26 @@ class BasicSimulation(Simulation):
                  simulation_mutations: bool = False):
         super().__init__(simulation_id, nodes)
         self.rounds = rounds
-        self.round_list = round_list
+        self.round_list = round_list or []
         self.mutations_per_mille = mutations_per_mille
         self.round_mutations = round_mutations
         self.simulation_mutations = simulation_mutations
 
-    @classmethod
-    def run_simulation(cls) -> RoundList:
+    def run_simulation(self) -> RoundList:
         """run the simulation
 
         :return: simulation results
         :rtype: RoundList
         """
-        while len(cls.round_list) < cls.rounds:
-            cls.round_list.append(play_round(
-                nodes=cls.nodes, rounds=cls.round_list,
-                mutations_per_mille=cls.mutations_per_mille, round_mutations=cls.round_mutations
+        while len(self.round_list) < self.rounds:
+            self.round_list.append(play_round(
+                nodes=self.nodes, rounds=self.round_list,
+                mutations_per_mille=self.mutations_per_mille, round_mutations=self.round_mutations
             ))
 
-        if cls.simulation_mutations:
-            for node in cls.nodes:
-                if random.randrange(0, 1000) < cls.mutations_per_mille:
+        if self.simulation_mutations:
+            for node in self.nodes:
+                if random.randrange(0, 1000) < self.mutations_per_mille:
                     node.mutate()
 
-        return cls.round_list
+        return self.round_list

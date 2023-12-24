@@ -51,8 +51,9 @@ class Algorithm(Base):
         self.mutable = bool(mutations)
         self.mutations = mutations
 
+    @staticmethod
     @abstractmethod
-    def decide(self, rounds: RoundList) -> bool:
+    def decide(rounds: RoundList) -> bool:
         """decide whether to cooperate or not
 
         :param rounds: the list of moves
