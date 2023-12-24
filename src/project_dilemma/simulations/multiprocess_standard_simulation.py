@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import itertools
 import multiprocessing
 
 from project_dilemma.interfaces.base import Round, RoundList
@@ -33,7 +34,7 @@ class MultiprocessStandardSimulation(BasicSimulation):
 
     def _collect_round(self, result: Round):
         """callback to collect simulation results from the pool"""
-        self.round_list.append(result)
+        self.round_list[-1].append(result)
 
     def run_simulation(self) -> RoundList:
         """runs the simulation
@@ -43,15 +44,15 @@ class MultiprocessStandardSimulation(BasicSimulation):
         """
         self.round_list.append([])
         simulations = []
-        for index, first_node in enumerate(self.nodes):
-            for second_node in self.nodes[index:]:
-                simulations.append(BasicSimulation(
-                    [first_node, second_node],
-                    rounds=self.rounds,
-                    mutations_per_mille=self.mutations_per_mille,
-                    round_mutations=self.round_mutations,
-                    simulation_mutations=self.simulation_mutations
-                ))
+        for first_node, second_node in itertools.combinations(self.nodes, r=2):
+            simulations.append(BasicSimulation(
+                f'{first_node.node_id}:{second_node.node_id}',
+                [first_node, second_node],
+                rounds=self.rounds,
+                mutations_per_mille=self.mutations_per_mille,
+                round_mutations=self.round_mutations,
+                simulation_mutations=self.simulation_mutations
+            ))
 
         pool = multiprocessing.Pool(processes=self.pool_size)
         for simulation in simulations:

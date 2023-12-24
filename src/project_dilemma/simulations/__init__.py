@@ -6,5 +6,6 @@ __all__ = ['simulations_map', 'BasicSimulation', 'StandardSimulation', 'Multipro
 
 simulations_map = {
     'BasicSimulation': BasicSimulation,
-
+    'StandardSimulation': StandardSimulation,
+    'MultiprocessStandardSimulation': MultiprocessStandardSimulation
 }
