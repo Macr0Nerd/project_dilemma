@@ -40,7 +40,7 @@ simulations_directory = "/path/to/simulations/"
   * An array of tables that specify a node id and an algorithm, as defined in the [Dynamic Imports](#dynamic-imports)
 section
 * simulation:
-  * A [Dynamic Imports](#dynamic-imports)
+  * A [Dynamic Import](#dynamic-imports)
 * simulation_id
   * The name of the simulation
 * simulation_arguments
