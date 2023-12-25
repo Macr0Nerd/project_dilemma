@@ -49,5 +49,7 @@ class Base(metaclass=ABCMeta):
 
 Round = MutableMapping[str, bool]
 """maps the node to whether or not it cooperated"""
-RoundList = MutableSequence[Round | Sequence[Round]]
+Rounds = MutableSequence[Round]
 """list of moves"""
+SimulationRounds = MutableMapping[str, Rounds]
+"""maps a game name to a list of rounds"""

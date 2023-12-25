@@ -17,7 +17,7 @@ import json
 import sys
 
 from project_dilemma.config import load_configuration, ProjectDilemmaConfig
-from project_dilemma.object_loaders import create_nodes, load_algorithms, load_simulation
+from project_dilemma.object_loaders import create_nodes, load_algorithms, load_rounds, load_simulation
 
 
 def main() -> int:
@@ -26,21 +26,34 @@ def main() -> int:
     simulation_class = load_simulation(config)
     algorithms_map = load_algorithms(config)
     nodes = create_nodes(config, algorithms_map)
+    rounds = load_rounds(config)
 
     simulation = simulation_class(
         simulation_id=config['simulation_id'],
         nodes=nodes,
+        simulation_rounds=rounds,
         **config['simulation_arguments']
     )
 
-    results = simulation.run_simulation()
+    simulation_rounds = simulation.run_simulation()
 
-    try:
-        with open(config['outfile'], 'w') as f:
-            json.dump(results, f)
-    except FileNotFoundError:
-        print('Output file could not be written to')
-        return 1
+    if config.get('rounds_output'):
+        try:
+            with open(config['rounds_output'], 'w') as f:
+                json.dump(simulation_rounds, f)
+        except FileNotFoundError:
+            print('Rounds output file could not be written to')
+            return 1
+
+    simulation_results = simulation.process_results()
+
+    if config.get('simulation_output'):
+        try:
+            with open(config['simulation_output'], 'w') as f:
+                json.dump(simulation_results, f)
+        except FileNotFoundError:
+            print('Simulation output file could not be written to')
+            return 1
 
     return 0
 

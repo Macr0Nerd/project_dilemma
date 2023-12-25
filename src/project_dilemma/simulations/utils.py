@@ -16,15 +16,15 @@ limitations under the License.
 from collections.abc import Sequence
 import random
 
-from project_dilemma.interfaces.base import Round, RoundList
+from project_dilemma.interfaces.base import Round, Rounds
 from project_dilemma.interfaces.node import Node
 
 
 def play_round(nodes: Sequence[Node],
-               rounds: RoundList,
+               rounds: Rounds,
                *,
                mutations_per_mille: int,
-               round_mutations: bool = False,) -> Round:
+               round_mutations: bool = False, ) -> Round:
     """run a round of prisoners dilemma with each node
 
     :param nodes: nodes to run

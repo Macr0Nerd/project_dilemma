@@ -17,9 +17,7 @@ from collections.abc import Sequence
 import random
 from typing import Optional
 
-from project_dilemma.interfaces.base import RoundList
-from project_dilemma.interfaces.node import Node
-from project_dilemma.interfaces.simulation import Simulation
+from project_dilemma.interfaces import Node, Simulation, SimulationRounds
 from project_dilemma.simulations.utils import play_round
 
 
@@ -39,35 +37,39 @@ class BasicSimulation(Simulation):
     """
     mutations_per_mille: int
     rounds: int
-    round_list: RoundList
     round_mutations: bool
     simulation_mutations: bool
+    simulation_rounds: SimulationRounds
 
     def __init__(self,
                  simulation_id: str,
                  nodes: Sequence[Node],
                  rounds: int,
-                 round_list: Optional[RoundList] = None,
+                 simulation_rounds: Optional[SimulationRounds] = None,
                  *,
                  mutations_per_mille: int = 0,
                  round_mutations: bool = False,
                  simulation_mutations: bool = False):
-        super().__init__(simulation_id, nodes)
+        super().__init__(nodes=nodes, simulation_id=simulation_id, simulation_rounds=simulation_rounds)
         self.rounds = rounds
-        self.round_list = round_list or []
         self.mutations_per_mille = mutations_per_mille
         self.round_mutations = round_mutations
         self.simulation_mutations = simulation_mutations
 
-    def run_simulation(self) -> RoundList:
+    def run_simulation(self) -> SimulationRounds:
         """run the simulation
 
         :return: simulation results
         :rtype: RoundList
         """
-        while len(self.round_list) < self.rounds:
-            self.round_list.append(play_round(
-                nodes=self.nodes, rounds=self.round_list,
+        game_id = ':'.join(sorted(node.node_id for node in self.nodes))
+
+        if not self.simulation_rounds.get(game_id):
+            self.simulation_rounds[self.simulation_id] = []
+
+        while len(self.simulation_rounds[self.simulation_id]) < self.rounds:
+            self.simulation_rounds[self.simulation_id].append(play_round(
+                nodes=self.nodes, rounds=self.simulation_rounds[self.simulation_id],
                 mutations_per_mille=self.mutations_per_mille, round_mutations=self.round_mutations
             ))
 
@@ -76,4 +78,7 @@ class BasicSimulation(Simulation):
                 if random.randrange(0, 1000) < self.mutations_per_mille:
                     node.mutate()
 
-        return self.round_list
+        return self.simulation_rounds
+
+    def process_results(self):
+        raise NotImplemented

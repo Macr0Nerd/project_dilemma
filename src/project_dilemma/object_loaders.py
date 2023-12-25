@@ -1,10 +1,12 @@
 import importlib
+import _json
+import json
 import os.path
 import sys
 from typing import Dict, List
 
 from project_dilemma.config import ProjectDilemmaConfig
-from project_dilemma.interfaces import Algorithm, Node, Simulation
+from project_dilemma.interfaces import Algorithm, Node, Simulation, SimulationRounds
 from project_dilemma.simulations import simulations_map
 
 
@@ -33,6 +35,20 @@ def load_algorithms(config: ProjectDilemmaConfig) -> Dict[str, Algorithm]:
         algorithm_map[algorithm['object']] = getattr(algorithm_module, algorithm['object'])
 
     return algorithm_map
+
+
+def load_rounds(config: ProjectDilemmaConfig) -> SimulationRounds:
+    round_data = {}
+
+    if config.get('rounds_data'):
+        try:
+            with open(config['rounds_data'], 'r') as f:
+                round_data = json.load(f)
+        except FileNotFoundError:
+            print('Rounds data file not found')
+            sys.exit(1)
+
+    return round_data
 
 
 def load_simulation(config: ProjectDilemmaConfig) -> Simulation:

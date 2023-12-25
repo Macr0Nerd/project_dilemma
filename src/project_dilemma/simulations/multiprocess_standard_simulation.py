@@ -16,11 +16,11 @@ limitations under the License.
 import itertools
 import multiprocessing
 
-from project_dilemma.interfaces.base import Round, RoundList
-from project_dilemma.simulations.basic_simulation import BasicSimulation
+from project_dilemma.interfaces import SimulationRounds
+from project_dilemma.simulations import BasicSimulation, StandardSimulation
 
 
-class MultiprocessStandardSimulation(BasicSimulation):
+class MultiprocessStandardSimulation(StandardSimulation):
     """runs each node against every other node and itself using multiprocessing
 
     :var pool_size: multiprocessing pool size
@@ -32,23 +32,25 @@ class MultiprocessStandardSimulation(BasicSimulation):
         super().__init__(**kwargs)
         self.pool_size = pool_size
 
-    def _collect_round(self, result: Round):
+    def _collect_round(self, result: SimulationRounds):
         """callback to collect simulation results from the pool"""
-        self.round_list[-1].append(result)
+        self.simulation_rounds.update(result)
 
-    def run_simulation(self) -> RoundList:
+    def run_simulation(self) -> SimulationRounds:
         """runs the simulation
 
         :return: simulation results
         :rtype: RoundList
         """
-        self.round_list.append([])
         simulations = []
         for first_node, second_node in itertools.combinations(self.nodes, r=2):
+            game_id = ':'.join(sorted([first_node.node_id, second_node.node_id]))
+
             simulations.append(BasicSimulation(
-                f'{first_node.node_id}:{second_node.node_id}',
+                game_id,
                 [first_node, second_node],
                 rounds=self.rounds,
+                simulation_rounds=self.simulation_rounds,
                 mutations_per_mille=self.mutations_per_mille,
                 round_mutations=self.round_mutations,
                 simulation_mutations=self.simulation_mutations
@@ -61,4 +63,4 @@ class MultiprocessStandardSimulation(BasicSimulation):
         pool.close()
         pool.join()
 
-        return self.round_list
+        return self.simulation_rounds

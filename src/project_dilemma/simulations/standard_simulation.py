@@ -13,10 +13,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from collections.abc import MutableMapping
 import itertools
 
-
-from project_dilemma.interfaces.base import RoundList
+from project_dilemma.interfaces import SimulationRounds
 from project_dilemma.simulations.basic_simulation import BasicSimulation
 
 
@@ -25,23 +25,57 @@ class StandardSimulation(BasicSimulation):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def run_simulation(self) -> RoundList:
+    def run_simulation(self) -> SimulationRounds:
         """runs the simulation
 
         :return: simulation results
         :rtype: RoundList
         """
-        self.round_list.append([])
         for first_node, second_node in itertools.combinations(self.nodes, r=2):
+            game_id = ':'.join(sorted([first_node.node_id, second_node.node_id]))
+
             simulation = BasicSimulation(
-                f'{first_node.node_id}:{second_node.node_id}',
+                game_id,
                 [first_node, second_node],
                 rounds=self.rounds,
+                simulation_rounds=self.simulation_rounds,
                 mutations_per_mille=self.mutations_per_mille,
                 round_mutations=self.round_mutations,
                 simulation_mutations=self.simulation_mutations
             )
 
-            self.round_list[-1].append(simulation.run_simulation())
+            self.simulation_rounds.update(simulation.run_simulation())
 
-        return self.round_list
+        return self.simulation_rounds
+
+    def process_results(self) -> MutableMapping[str, int]:
+        """process the simulation results
+
+        if both nodes cooperate,
+
+        :return: node_id to simulation points
+        :rtype: MutableMapping[str, int]
+        """
+
+        results = {}
+        for game_id, rounds in self.simulation_rounds.items():
+            if rounds:
+                nodes = list(rounds[0].keys())
+
+                for node in nodes:
+                    if not results.get(node):
+                        results[node] = 0
+
+                for round in rounds:
+                    if round[nodes[0]] and round[nodes[1]]:
+                        results[nodes[0]] += 3
+                        results[nodes[1]] += 3
+                    elif round[nodes[0]]:
+                        results[nodes[1]] += 5
+                    elif round[nodes[1]]:
+                        results[nodes[0]] += 5
+                    else:
+                        results[nodes[0]] += 1
+                        results[nodes[1]] += 1
+
+        return results

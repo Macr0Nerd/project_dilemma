@@ -17,7 +17,7 @@ from abc import abstractmethod
 from collections.abc import Sequence
 from typing import Optional, Self
 
-from project_dilemma.interfaces.base import Base, RoundList
+from project_dilemma.interfaces.base import Base, Rounds
 
 
 class Algorithm(Base):
@@ -53,7 +53,7 @@ class Algorithm(Base):
 
     @staticmethod
     @abstractmethod
-    def decide(rounds: RoundList) -> bool:
+    def decide(rounds: Rounds) -> bool:
         """decide whether to cooperate or not
 
         :param rounds: the list of moves
