@@ -41,7 +41,9 @@ class StandardSimulation(BasicSimulation):
                 simulation_rounds=self.simulation_rounds,
                 mutations_per_mille=self.mutations_per_mille,
                 round_mutations=self.round_mutations,
-                simulation_mutations=self.simulation_mutations
+                simulation_mutations=self.simulation_mutations,
+                noise=self.noise,
+                noise_per_mille=self.noise_per_mille
             )
 
             self.simulation_rounds.update(simulation.run_simulation())

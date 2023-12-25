@@ -26,16 +26,20 @@ class BasicSimulation(Simulation):
 
     :var mutations_per_mille: rate that mutations should occur per mille
     :vartype mutations_per_mille: int
+    :var noise: if noise is enabled
+    :var noise_per_mille:
     :var rounds: total rounds to play
     :vartype rounds: int
-    :var round_list: list of rounds
-    :vartype round_list: RoundList
     :var round_mutations: if nodes can mutate after a round
     :vartype round_mutations: bool
     :var simulation_mutations: if nodes can mutate after a simulation
     :vartype simulation_mutations: bool
+    :var simulation_rounds: list of rounds
+    :vartype simulation_rounds: SimulationRounds
     """
     mutations_per_mille: int
+    noise: bool
+    noise_per_mille: int
     rounds: int
     round_mutations: bool
     simulation_mutations: bool
@@ -48,11 +52,15 @@ class BasicSimulation(Simulation):
                  simulation_rounds: Optional[SimulationRounds] = None,
                  *,
                  mutations_per_mille: int = 0,
+                 noise: bool = False,
+                 noise_per_mille: int = 0,
                  round_mutations: bool = False,
-                 simulation_mutations: bool = False):
+                 simulation_mutations: bool = False,):
         super().__init__(nodes=nodes, simulation_id=simulation_id, simulation_rounds=simulation_rounds)
         self.rounds = rounds
         self.mutations_per_mille = mutations_per_mille
+        self.noise = noise
+        self.noise_per_mille = noise_per_mille
         self.round_mutations = round_mutations
         self.simulation_mutations = simulation_mutations
 
@@ -65,13 +73,18 @@ class BasicSimulation(Simulation):
         game_id = ':'.join(sorted(node.node_id for node in self.nodes))
 
         if not self.simulation_rounds.get(game_id):
-            self.simulation_rounds[self.simulation_id] = []
+            self.simulation_rounds[game_id] = []
 
-        while len(self.simulation_rounds[self.simulation_id]) < self.rounds:
-            self.simulation_rounds[self.simulation_id].append(play_round(
-                nodes=self.nodes, rounds=self.simulation_rounds[self.simulation_id],
+        while len(self.simulation_rounds[game_id]) < self.rounds:
+            self.simulation_rounds[game_id].append(play_round(
+                nodes=self.nodes, rounds=self.simulation_rounds[game_id],
                 mutations_per_mille=self.mutations_per_mille, round_mutations=self.round_mutations
             ))
+
+            if self.noise:
+                for node, decision in self.simulation_rounds[game_id][-1].items():
+                    if random.randrange(0, 1000) < self.noise_per_mille:
+                        self.simulation_rounds[game_id][-1][node] = not decision
 
         if self.simulation_mutations:
             for node in self.nodes:
