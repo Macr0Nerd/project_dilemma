@@ -15,7 +15,7 @@ limitations under the License.
 """
 from abc import abstractmethod
 from collections.abc import Sequence
-from typing import Optional, Self
+from typing import Optional, Self, Type
 
 from project_dilemma.interfaces.base import Base, Rounds
 
@@ -25,8 +25,6 @@ class Algorithm(Base):
 
     :var algorithm_id: id of the algorithm
     :vartype algorithm_id: str
-    :var mutable: if the algorithm is mutable
-    :vartype mutable: bool
     :var mutations: list of possible mutations
     :vartype mutations: List[Algorithm]
     """
@@ -36,19 +34,9 @@ class Algorithm(Base):
     ]
 
     algorithm_id: str
-    mutable: bool
-    mutations: Optional[Sequence[Self]]
+    mutations: Optional[Sequence[Type[Self]]] = None
 
-    def __init__(self, mutations: Sequence[Self] = None) -> None:
-        self.mutations = mutations
-
-    @property
-    def mutations(self) -> Optional[Sequence[Self]]:
-        return self.mutations
-
-    @mutations.setter
-    def mutations(self, mutations: Optional[Sequence[Self]]):
-        self.mutable = bool(mutations)
+    def __init__(self, mutations: Optional[Sequence[Type[Self]]] = None) -> None:
         self.mutations = mutations
 
     @staticmethod

@@ -44,5 +44,5 @@ class Node(Base):
 
     def mutate(self):
         """set the node to a random algorithm mutation"""
-        if self.algorithm.mutable:
+        if self.algorithm.mutations:
             self.algorithm = random.choice(self.algorithm.mutations)
