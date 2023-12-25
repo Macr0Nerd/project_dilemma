@@ -32,9 +32,12 @@ The schema has been provided below:
 algorithms_directory = "/path/to/algorithms/"
 nodes = [ { node_id = "node_1", algorithm = { file = "foo.py", object = "Foo" } },
           { node_id = "node_2", algorithm = { file = "bar/baz.py", object = "Baz" } } ]
+rounds_data = "path/to/round.json"
+rounds_output = "path/to/round.json"
 simulation = { file = "foobar.py", object = "FooBar" }
 simulation_id = "name of simulation"
 simulation_arguments = { foo = "bar" }
+simulation_results = "path/to/results.json"
 simulations_directory = "/path/to/simulations/"
 ```
 
@@ -43,12 +46,18 @@ simulations_directory = "/path/to/simulations/"
 * nodes
   * An array of tables that specify a node id and an algorithm, as defined in the [Dynamic Imports](#dynamic-imports)
 section
+* rounds_data
+  * Path to a JSON file containing previous round data
+* rounds_output
+  * Path to write the round data as a JSON
 * simulation:
   * A [Dynamic Import](#dynamic-imports)
 * simulation_id
   * The name of the simulation
 * simulation_arguments
   * Arguments to pass into the simulation
+* simulation_results
+  * Path to write the simulation results
 * simulations_directory
   * A path to the directory containing additional simulation files
   * Required for user provided simulations
@@ -71,7 +80,18 @@ used to tell the program where to look for the imports:
     * For builtin simulations, specify the simulation class name here
 
 ## Algorithms
-Coming soon, see `project_dilemma.interfaces.algorithm` for more information.
+Algorithms can be defined very easily.
+Only four things must be done to subclass the Algorithm interface:
+1. Set class name
+2. Set `algorithm_id`
+3. Pass in the mutations to the interface's init (see template for example)
+4. Implement the `decide` function
+
+The `decide` function is what the simulation uses to run the algorithm.
+It accepts a `project_dilemma.interfaces.base.Rounds` object which can be used to get the results of prior rounds.
+The function should return `True` for cooperation, and `False` for defection.
+
+A template has been provided us `templates/algorithm_template` for ease of use.
 
 ## Simulations
 Coming soon, see `project_dilemma.interfaces.simulation` for more information.
