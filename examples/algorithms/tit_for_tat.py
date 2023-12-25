@@ -1,8 +1,7 @@
 from collections.abc import Sequence
 from typing import Self
 
-from project_dilemma.interfaces import Algorithm
-from project_dilemma.interfaces.base import RoundList
+from project_dilemma.interfaces import Algorithm, Rounds
 
 
 class TitForTat(Algorithm):
@@ -12,7 +11,7 @@ class TitForTat(Algorithm):
         super().__init__(mutations)
 
     @staticmethod
-    def decide(rounds: RoundList) -> bool:
+    def decide(rounds: Rounds) -> bool:
         if not rounds:
             return True
 
