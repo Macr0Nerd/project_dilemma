@@ -1,27 +1,43 @@
 import importlib
-import _json
 import json
 import os.path
 import sys
-from typing import Dict, List
+from typing import Dict, List, Type
 
 from project_dilemma.config import ProjectDilemmaConfig
 from project_dilemma.interfaces import Algorithm, Node, Simulation, SimulationRounds
 from project_dilemma.simulations import simulations_map
 
 
-def load_algorithms(config: ProjectDilemmaConfig) -> Dict[str, Algorithm]:
+def create_nodes(config: ProjectDilemmaConfig, algorithms_map: Dict[str, Type[Algorithm]]) -> List[Node]:
+    """create the simulation nodes
+
+    :param config: configuration data
+    :type config: ProjectDilemmaConfig
+    :param algorithms_map: map of algorithm class names to algorithms
+    :type algorithms_map: Dict[str, Type[Algorithm]]
+    :return:
+    """
+    nodes = []
+
+    for node in config['nodes']:
+        nodes.append(Node(node['node_id'], algorithms_map[node['algorithm']['object']]))
+
+    return nodes
+
+
+def load_algorithms(config: ProjectDilemmaConfig) -> Dict[str, Type[Algorithm]]:
     """load all algorithms used
 
     :param config: configuration data
     :type config: ProjectDilemmaConfig
     :return: map of algorithm class names to algorithms
-    :rtype: Dict[str, Algorithm]
+    :rtype: Dict[str, Type[Algorithm]]
     """
     sys.path.append(config['algorithms_directory'])
 
     algorithms = [node['algorithm'] for node in config['nodes']]
-    algorithm_map: Dict[str, Algorithm] = {}
+    algorithm_map: Dict[str, Type[Algorithm]] = {}
 
     for algorithm in algorithms:
         if algorithm_map.get(algorithm['object']):
@@ -51,7 +67,7 @@ def load_rounds(config: ProjectDilemmaConfig) -> SimulationRounds:
     return round_data
 
 
-def load_simulation(config: ProjectDilemmaConfig) -> Simulation:
+def load_simulation(config: ProjectDilemmaConfig) -> Type[Simulation]:
     """load the simulation
 
     :param config: configuration data
@@ -76,20 +92,3 @@ def load_simulation(config: ProjectDilemmaConfig) -> Simulation:
         simulation = simulations_map[config['simulation']['object']]
 
     return simulation
-
-
-def create_nodes(config: ProjectDilemmaConfig, algorithms_map: Dict[str, Algorithm]) -> List[Node]:
-    """create the simulation nodes
-
-    :param config: configuration data
-    :type config: ProjectDilemmaConfig
-    :param algorithms_map: map of algorithm class names to algorithms
-    :type algorithms_map: Dict[str, Algorithm]
-    :return:
-    """
-    nodes = []
-
-    for node in config['nodes']:
-        nodes.append(Node(node['node_id'], algorithms_map[node['algorithm']['object']]))
-
-    return nodes

@@ -14,8 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import random
+from typing import Self, Type
 
-from project_dilemma.interfaces.algorithm import Algorithm
+from project_dilemma.interfaces import Algorithm
 from project_dilemma.interfaces.base import Base
 
 
@@ -27,7 +28,7 @@ class Node(Base):
     :var node_id: id of the node
     :vartype node_id: str
     :var algorithm: cooperation algorithm
-    :vartype algorithm: Algorithm
+    :vartype algorithm: Type[Algorithm]
     """
     _required_attributes = [
         'algorithm',
@@ -36,11 +37,14 @@ class Node(Base):
     ]
 
     node_id: str
-    algorithm: Algorithm
+    algorithm: Type[Algorithm]
 
-    def __init__(self, node_id: str, algorithm: Algorithm):
+    def __init__(self, node_id: str, algorithm: Type[Algorithm]):
         self.node_id = node_id
         self.algorithm = algorithm
+
+    def __eq__(self, other: Self):
+        return (self.node_id == other.node_id) and (self.algorithm.algorithm_id == other.algorithm.algorithm_id)
 
     def mutate(self):
         """set the node to a random algorithm mutation"""

@@ -1,0 +1,10 @@
+simulation_id = "Pytest Simulation"
+algorithms_directory = "examples/algorithms/"
+nodes = [ { node_id = "node_1", algorithm = { file = "simple.py", object = "AlwaysCooperate" } },
+          { node_id = "node_2", algorithm = { file = "simple.py", object = "AlwaysDefect" } },
+          { node_id = "node_3", algorithm = { file = "tit_for_tat.py", object = "TitForTat" } }, ]
+rounds_data = "examples/rounds/pytest.json"
+rounds_output = "examples/rounds/pytest.json"
+simulation = { object = "StandardSimulation" }
+simulation_arguments = { rounds = 10 }
+simulation_output = "examples/results/pytest.json"

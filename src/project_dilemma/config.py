@@ -60,7 +60,7 @@ def arguments() -> dict:
     parser_out.add_argument('-sO', '--simulation-output', help='output the results as JSON',
                             dest='simulation_output')
 
-    if not len(sys.argv):
+    if len(sys.argv) <= 1:
         parser.print_help()
         sys.exit(0)
 
