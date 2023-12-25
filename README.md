@@ -86,10 +86,13 @@ Only four things must be done to subclass the Algorithm interface:
 2. Set `algorithm_id`
 3. Pass in the mutations to the interface's init (see template for example)
 4. Implement the `decide` function
+5. Set mutations (optional)
 
 The `decide` function is what the simulation uses to run the algorithm.
 It accepts a `project_dilemma.interfaces.base.Rounds` object which can be used to get the results of prior rounds.
 The function should return `True` for cooperation, and `False` for defection.
+
+If you want to add mutations, set the static mutation list *after* defining the class as to avoid circular imports.
 
 A template has been provided us `templates/algorithm_template` for ease of use.
 

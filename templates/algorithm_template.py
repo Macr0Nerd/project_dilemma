@@ -15,3 +15,7 @@ class AlgorithmTemplate(Algorithm):
         # Place algorithm here
         # Return true for cooperation, and false for defection
         return True
+
+
+# Set mutations here to avoid circular imports
+AlgorithmTemplate.mutations = []
