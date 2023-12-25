@@ -14,7 +14,7 @@ class AlgorithmTemplate(Algorithm):
     def decide(rounds: Rounds) -> bool:
         # Place algorithm here
         # Return true for cooperation, and false for defection
-        return True
+        raise NotImplementedError
 
 
 # Set mutations here to avoid circular imports
