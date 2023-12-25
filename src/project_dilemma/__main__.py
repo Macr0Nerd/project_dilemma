@@ -54,6 +54,9 @@ def main() -> int:
         except FileNotFoundError:
             print('Simulation output file could not be written to')
             return 1
+        except NotImplementedError:
+            print('This simulation class has not implemented results processing')
+            return 1
 
     return 0
 

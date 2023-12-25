@@ -81,4 +81,4 @@ class BasicSimulation(Simulation):
         return self.simulation_rounds
 
     def process_results(self):
-        raise NotImplemented
+        raise NotImplementedError
