@@ -31,7 +31,12 @@ classifiers = [
     "Topic :: Games/Entertainment :: Simulation"
 ]
 dependencies = [
-    "platformdirs~=4.1.0"
+    "platformdirs"
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest"
 ]
 
 [project.urls]
@@ -42,3 +47,13 @@ project_dilemma = "project_dilemma.__main__:main"
 
 [tool.setuptools.dynamic]
 version = {attr = "project_dilemma.__version__"}
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+pythonpath = [
+    "src",
+    "examples"
+]
+testpaths = [
+    "tests"
+]
