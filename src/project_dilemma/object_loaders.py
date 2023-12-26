@@ -76,28 +76,34 @@ def load_simulation_data(config: ProjectDilemmaConfig) -> Generations | Simulati
     return data
 
 
-def load_simulation(config: ProjectDilemmaConfig) -> Type[SimulationBase]:
+def load_simulation(config: ProjectDilemmaConfig, *, generational: bool = False) -> Type[SimulationBase]:
     """load the simulation
 
     :param config: configuration data
     :type config: ProjectDilemmaConfig
+    :param generational: if the generational simulation should be loaded
+    :type generational: bool
     :return: the configured simulation
     :rtype: Type[SimulationBase]
     """
-    if config['simulation'].get('file'):
+    key = 'simulation'
+    if generational:
+        key = 'generational_' + key
+
+    if config[key].get('file'):
         if not config.get('simulations_directory'):
             print('A simulations directory is required to use user provided simulations')
             sys.exit(1)
 
         sys.path.append(config['simulations_directory'])
 
-        if not os.path.exists(os.path.join(config['simulations_directory'], config['simulation']['file'])):
-            print('Simulation file could not be found')
+        if not os.path.exists(os.path.join(config['simulations_directory'], config[key]['file'])):
+            print(f'The {"generational " if generational else ""}simulation file could not be found')
             sys.exit(1)
 
-        simulation_module = importlib.import_module(config['simulation']['file'].strip('.py'))
-        simulation = getattr(simulation_module, config['simulation']['object'])
+        simulation_module = importlib.import_module(config[key]['file'].strip('.py'))
+        simulation = getattr(simulation_module, config[key]['object'])
     else:
-        simulation = simulations_map[config['simulation']['object']]
+        simulation = simulations_map[config[key]['object']]
 
     return simulation

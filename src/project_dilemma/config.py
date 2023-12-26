@@ -21,6 +21,7 @@ class NodeConfig(TypedDict):
 
 class ProjectDilemmaConfig(TypedDict):
     algorithms_directory: str
+    generational_simulation: NotRequired[DynamicImport]
     nodes: List[NodeConfig]
     simulation: DynamicImport
     simulation_id: str

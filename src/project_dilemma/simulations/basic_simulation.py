@@ -119,6 +119,5 @@ class BasicSimulation(Simulation):
 
         return self.simulation_data
 
-    @abstractmethod
     def process_results(self):
         raise NotImplementedError

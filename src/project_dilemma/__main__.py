@@ -15,7 +15,6 @@ limitations under the License.
 """
 import json
 import sys
-from typing import Literal
 
 from project_dilemma.config import load_configuration, ProjectDilemmaConfig
 from project_dilemma.interfaces import GenerationalSimulation
@@ -26,6 +25,10 @@ def main() -> int:
     config: ProjectDilemmaConfig = load_configuration()
 
     simulation_class = load_simulation(config)
+    generational_simulation_class = None
+    if issubclass(simulation_class, GenerationalSimulation):
+        generational_simulation_class = load_simulation(config, generational=True)
+
     algorithms_map = load_algorithms(config)
     nodes = create_nodes(config, algorithms_map)
     simulation_data = load_simulation_data(config)
@@ -34,6 +37,7 @@ def main() -> int:
         simulation_id=config['simulation_id'],
         nodes=nodes,
         simulation_data=simulation_data,
+        simulation=generational_simulation_class,
         **config['simulation_arguments']
     )
 

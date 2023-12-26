@@ -16,11 +16,11 @@ limitations under the License.
 import random
 from typing import Self, Type
 
-from project_dilemma.interfaces import Algorithm
-from project_dilemma.interfaces.base import Base
+import project_dilemma.interfaces.algorithm as pd_int_algorithm
+import project_dilemma.interfaces.base as pd_int_base
 
 
-class Node(Base):
+class Node(pd_int_base.Base):
     """simulation node interface
 
     The interface for the nodes which will run in the simulation
@@ -37,9 +37,9 @@ class Node(Base):
     ]
 
     node_id: str
-    algorithm: Type[Algorithm]
+    algorithm: Type[pd_int_algorithm.Algorithm]
 
-    def __init__(self, node_id: str, algorithm: Type[Algorithm]):
+    def __init__(self, node_id: str, algorithm: Type[pd_int_algorithm.Algorithm], **kwargs):
         self.node_id = node_id
         self.algorithm = algorithm
 
