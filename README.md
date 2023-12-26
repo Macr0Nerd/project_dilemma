@@ -5,6 +5,8 @@ Inspired by [this Veritasium](https://youtu.be/mScpHTIi-kM?si=7pe8XjmjjWLhMup6) 
 
 ## Table of Contents
 * [Installation](#installation)
+  * [PyPi](#pypi)
+  * [Manual](#manual)
 * [Configuration](#configuration)
   * [Config File Location](#config-file-location)
   * [Dynamic Imports](#dynamic-imports)
@@ -12,9 +14,12 @@ Inspired by [this Veritasium](https://youtu.be/mScpHTIi-kM?si=7pe8XjmjjWLhMup6) 
 * [Simulations](#simulations)
 
 ## Installation
+### PyPi
+1. `pip install project-dilemma`
+### Manual
 1. Download git repo
 2. Change into repo root directory
-3. Run `pip install .`
+3. `pip install .`
 
 ## Configuration
 ### Config File Location
