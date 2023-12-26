@@ -82,9 +82,9 @@ class Simulation(Base):
         :return: simulation results
         :rtype: RoundList
         """
-        raise NotImplemented
+        raise NotImplementedError
 
     @abstractmethod
     def process_results(self):
         """process simulation results"""
-        raise NotImplemented
+        raise NotImplementedError
