@@ -12,6 +12,7 @@ Inspired by [this Veritasium](https://youtu.be/mScpHTIi-kM?si=7pe8XjmjjWLhMup6) 
   * [Dynamic Imports](#dynamic-imports)
 * [Algorithms](#algorithms)
 * [Simulations](#simulations)
+* [Generational Simulations](#generational-simulations)
 
 ## Installation
 ### PyPi
@@ -99,7 +100,7 @@ The function should return `True` for cooperation, and `False` for defection.
 
 If you want to add mutations, set the static mutation list *after* defining the class as to avoid circular imports.
 
-A template has been provided us `templates/algorithm_template.py` for ease of use.
+A template has been provided in `templates/algorithm_template.py` for ease of use.
 
 ## Simulations
 Simulations a more complicated to configure as compared to algorithms.
@@ -109,7 +110,14 @@ You only need to override the `run_simulation` and `process_simulation` methods,
 `process_simulation` to get the results.
 
 For example, the provided standard simulations process the rounds data to calculate scores for each node
-A template can be found in `templates/simulation_template.py`
+A template can be found in `templates/simulation_template.py`.
+
+### Generational Simulations
+Generational Simulations are deceptively simple.
+There is only one function to override: `generational_hook`.
+However, this means that all the generational processing must be done in this function.
+
+A template has been provided in `templates/generational_simulation_template.py`.
 
 ## License
 Copyright 2023 Gabriele Ron
