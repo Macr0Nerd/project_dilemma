@@ -16,7 +16,7 @@ limitations under the License.
 import itertools
 import multiprocessing
 
-from project_dilemma.interfaces import SimulationRounds
+from project_dilemma.interfaces import Simulations
 from project_dilemma.simulations import BasicSimulation, StandardSimulation
 
 
@@ -32,15 +32,15 @@ class MultiprocessStandardSimulation(StandardSimulation):
         super().__init__(**kwargs)
         self.pool_size = pool_size
 
-    def _collect_round(self, result: SimulationRounds):
+    def _collect_round(self, result: Simulations):
         """callback to collect simulation results from the pool"""
         self.simulation_rounds.update(result)
 
-    def run_simulation(self) -> SimulationRounds:
+    def run_simulation(self) -> Simulations:
         """runs the simulation
 
         :return: simulation results
-        :rtype: RoundList
+        :rtype: Simulations
         """
         simulations = []
         for first_node, second_node in itertools.combinations(self.nodes, r=2):

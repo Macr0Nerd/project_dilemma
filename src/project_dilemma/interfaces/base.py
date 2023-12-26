@@ -51,5 +51,5 @@ Round = MutableMapping[str, bool]
 """maps the node to whether or not it cooperated"""
 Rounds = MutableSequence[Round]
 """list of moves"""
-SimulationRounds = MutableMapping[str, Rounds]
+Simulations = MutableMapping[str, Rounds]
 """maps a game name to a list of rounds"""

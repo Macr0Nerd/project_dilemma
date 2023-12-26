@@ -16,19 +16,19 @@ limitations under the License.
 from abc import abstractmethod
 from collections.abc import Sequence
 
-from project_dilemma.interfaces import Node, Simulation, SimulationRounds
+from project_dilemma.interfaces import Node, Simulation, Simulations
 
 
 class SimulationTemplate(Simulation):
     @abstractmethod
-    def __init__(self, nodes: Sequence[Node], simulation_id: str, simulation_rounds: SimulationRounds = None):
+    def __init__(self, nodes: Sequence[Node], simulation_id: str, simulation_rounds: Simulations = None):
         super().__init__(nodes=nodes, simulation_id=simulation_id, simulation_rounds=simulation_rounds)
 
-    def run_simulation(self) -> SimulationRounds:
+    def run_simulation(self) -> Simulations:
         """run the simulation
 
         :return: simulation results
-        :rtype: RoundList
+        :rtype: Simulations
         """
         raise NotImplemented
 

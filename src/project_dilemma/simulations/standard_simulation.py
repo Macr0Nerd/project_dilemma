@@ -16,7 +16,7 @@ limitations under the License.
 from collections.abc import MutableMapping
 import itertools
 
-from project_dilemma.interfaces import SimulationRounds
+from project_dilemma.interfaces import Simulations
 from project_dilemma.simulations.basic_simulation import BasicSimulation
 
 
@@ -25,11 +25,11 @@ class StandardSimulation(BasicSimulation):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def run_simulation(self) -> SimulationRounds:
+    def run_simulation(self) -> Simulations:
         """runs the simulation
 
         :return: simulation results
-        :rtype: RoundList
+        :rtype: Simulations
         """
         for first_node, second_node in itertools.combinations(self.nodes, r=2):
             game_id = ':'.join(sorted([first_node.node_id, second_node.node_id]))

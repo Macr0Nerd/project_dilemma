@@ -105,7 +105,7 @@ A template has been provided us `templates/algorithm_template.py` for ease of us
 Simulations a more complicated to configure as compared to algorithms.
 You only need to override the `run_simulation` and `process_simulation` methods, but these are incredibly important.
 
-`run_simulation` returns a `project_dilemma.interfaces.base.SimulationRounds` object that will be used by
+`run_simulation` returns a `project_dilemma.interfaces.base.Simulations` object that will be used by
 `process_simulation` to get the results.
 
 For example, the provided standard simulations process the rounds data to calculate scores for each node

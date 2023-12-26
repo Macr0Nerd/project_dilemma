@@ -17,7 +17,7 @@ from collections.abc import Sequence
 import random
 from typing import Optional
 
-from project_dilemma.interfaces import Node, Round, Rounds, Simulation, SimulationRounds
+from project_dilemma.interfaces import Node, Round, Rounds, Simulation, Simulations
 
 
 def play_round(nodes: Sequence[Node],
@@ -62,7 +62,7 @@ class BasicSimulation(Simulation):
     :var simulation_mutations: if nodes can mutate after a simulation
     :vartype simulation_mutations: bool
     :var simulation_rounds: list of rounds
-    :vartype simulation_rounds: SimulationRounds
+    :vartype simulation_rounds: Simulations
     """
     mutations_per_mille: int
     noise: bool
@@ -70,19 +70,19 @@ class BasicSimulation(Simulation):
     rounds: int
     round_mutations: bool
     simulation_mutations: bool
-    simulation_rounds: SimulationRounds
+    simulation_rounds: Simulations
 
     def __init__(self,
                  simulation_id: str,
                  nodes: Sequence[Node],
                  rounds: int,
-                 simulation_rounds: Optional[SimulationRounds] = None,
+                 simulation_rounds: Optional[Simulations] = None,
                  *,
                  mutations_per_mille: int = 0,
                  noise: bool = False,
                  noise_per_mille: int = 0,
                  round_mutations: bool = False,
-                 simulation_mutations: bool = False,):
+                 simulation_mutations: bool = False, ):
         super().__init__(nodes=nodes, simulation_id=simulation_id, simulation_rounds=simulation_rounds)
         self.rounds = rounds
         self.mutations_per_mille = mutations_per_mille
@@ -91,7 +91,7 @@ class BasicSimulation(Simulation):
         self.round_mutations = round_mutations
         self.simulation_mutations = simulation_mutations
 
-    def run_simulation(self) -> SimulationRounds:
+    def run_simulation(self) -> Simulations:
         """run the simulation
 
         :return: simulation results

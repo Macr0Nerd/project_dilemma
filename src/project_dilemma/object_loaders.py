@@ -5,7 +5,7 @@ import sys
 from typing import Dict, List, Type
 
 from project_dilemma.config import ProjectDilemmaConfig
-from project_dilemma.interfaces import Algorithm, Node, Simulation, SimulationRounds
+from project_dilemma.interfaces import Algorithm, Node, Simulation, Simulations
 from project_dilemma.simulations import simulations_map
 
 
@@ -53,7 +53,7 @@ def load_algorithms(config: ProjectDilemmaConfig) -> Dict[str, Type[Algorithm]]:
     return algorithm_map
 
 
-def load_rounds(config: ProjectDilemmaConfig) -> SimulationRounds:
+def load_rounds(config: ProjectDilemmaConfig) -> Simulations:
     round_data = {}
 
     if config.get('rounds_data'):

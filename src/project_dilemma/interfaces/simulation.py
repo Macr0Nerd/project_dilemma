@@ -18,7 +18,7 @@ from collections import Counter
 from collections.abc import Sequence
 from typing import Optional
 
-from project_dilemma.interfaces.base import Base, SimulationRounds
+from project_dilemma.interfaces.base import Base, Simulations
 from project_dilemma.interfaces.node import Node
 
 
@@ -33,7 +33,7 @@ class Simulation(Base):
     :var simulation_id: id of the simulation
     :vartype simulation_id: str
     :var simulation_rounds: simulation round data
-    :vartype simulation_rounds: SimulationRounds
+    :vartype simulation_rounds: Simulations
     """
     _required_attributes = [
         'nodes',
@@ -44,11 +44,11 @@ class Simulation(Base):
     ]
 
     simulation_id: str
-    _simulation_rounds: SimulationRounds
+    _simulation_rounds: Simulations
     _nodes: Sequence[Node]
 
     @abstractmethod
-    def __init__(self, *, nodes: Sequence[Node], simulation_id: str, simulation_rounds: SimulationRounds = None):
+    def __init__(self, *, nodes: Sequence[Node], simulation_id: str, simulation_rounds: Simulations = None):
         self.nodes = nodes
         self.simulation_id = simulation_id
         self.simulation_rounds = simulation_rounds
@@ -65,18 +65,18 @@ class Simulation(Base):
         self._nodes = nodes
 
     @property
-    def simulation_rounds(self) -> SimulationRounds:
+    def simulation_rounds(self) -> Simulations:
         return self._simulation_rounds
 
     @simulation_rounds.setter
-    def simulation_rounds(self, simulation_rounds: Optional[SimulationRounds]):
+    def simulation_rounds(self, simulation_rounds: Optional[Simulations]):
         if not simulation_rounds:
             self._simulation_rounds = {}
         else:
             self._simulation_rounds = simulation_rounds
 
     @abstractmethod
-    def run_simulation(self) -> SimulationRounds:
+    def run_simulation(self) -> Simulations:
         """run the simulation
 
         :return: simulation results
