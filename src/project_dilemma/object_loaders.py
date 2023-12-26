@@ -2,7 +2,7 @@ import importlib
 import json
 import os.path
 import sys
-from typing import Dict, List, Literal, Type
+from typing import Dict, List, Type
 
 from project_dilemma.config import ProjectDilemmaConfig
 from project_dilemma.interfaces import Algorithm, Generations, Node, SimulationBase, Simulations

@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from abc import abstractmethod
 from collections.abc import Sequence
 import random
 from typing import Optional
@@ -49,7 +50,7 @@ def play_round(nodes: Sequence[Node],
 
 
 class BasicSimulation(Simulation):
-    """simulation interface
+    """basic simulation
 
     :var mutations_per_mille: rate that mutations should occur per mille
     :vartype mutations_per_mille: int
@@ -61,8 +62,6 @@ class BasicSimulation(Simulation):
     :vartype round_mutations: bool
     :var simulation_mutations: if nodes can mutate after a simulation
     :vartype simulation_mutations: bool
-    :var simulation_data: list of rounds
-    :vartype simulation_data: Simulations
     """
     mutations_per_mille: int
     noise: bool
@@ -81,7 +80,8 @@ class BasicSimulation(Simulation):
                  noise: bool = False,
                  noise_per_mille: int = 0,
                  round_mutations: bool = False,
-                 simulation_mutations: bool = False, ):
+                 simulation_mutations: bool = False,
+                 **kwargs):
         super().__init__(nodes=nodes, simulation_id=simulation_id, simulation_data=simulation_data)
         self.rounds = rounds
         self.mutations_per_mille = mutations_per_mille
@@ -119,5 +119,6 @@ class BasicSimulation(Simulation):
 
         return self.simulation_data
 
+    @abstractmethod
     def process_results(self):
         raise NotImplementedError

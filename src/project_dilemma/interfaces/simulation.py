@@ -16,7 +16,7 @@ limitations under the License.
 from abc import abstractmethod
 from collections import Counter
 from collections.abc import Sequence
-from typing import Optional, Self, Type
+from typing import Optional
 
 from project_dilemma.interfaces import Generations, Node, Simulations
 from project_dilemma.interfaces.base import Base
@@ -82,12 +82,12 @@ class SimulationBase(Base):
         :return: simulation results
         :rtype: Simulations
         """
-        raise NotImplementedError
+        return NotImplemented
 
     @abstractmethod
     def process_results(self):
         """process simulation results"""
-        raise NotImplementedError
+        return NotImplemented
 
 
 class Simulation(SimulationBase):
@@ -99,24 +99,8 @@ class Simulation(SimulationBase):
 
     @abstractmethod
     def run_simulation(self) -> Simulations:
-        raise NotImplementedError
+        return NotImplemented
 
     @abstractmethod
     def process_results(self):
-        raise NotImplementedError
-
-
-class GenerationalSimulation(SimulationBase):
-    _simulation_data: Generations
-
-    @abstractmethod
-    def __init__(self, *, nodes: Sequence[Node], simulation_id: str, simulation_data: Generations = None):
-        super().__init__(nodes=nodes, simulation_id=simulation_id, simulation_data=simulation_data)
-
-    @abstractmethod
-    def run_simulation(self) -> Generations:
-        raise NotImplementedError
-
-    @abstractmethod
-    def process_results(self):
-        raise NotImplementedError
+        return NotImplemented
