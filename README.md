@@ -94,10 +94,17 @@ The function should return `True` for cooperation, and `False` for defection.
 
 If you want to add mutations, set the static mutation list *after* defining the class as to avoid circular imports.
 
-A template has been provided us `templates/algorithm_template` for ease of use.
+A template has been provided us `templates/algorithm_template.py` for ease of use.
 
 ## Simulations
-Coming soon, see `project_dilemma.interfaces.simulation` for more information.
+Simulations a more complicated to configure as compared to algorithms.
+You only need to override the `run_simulation` and `process_simulation` methods, but these are incredibly important.
+
+`run_simulation` returns a `project_dilemma.interfaces.base.SimulationRounds` object that will be used by
+`process_simulation` to get the results.
+
+For example, the provided standard simulations process the rounds data to calculate scores for each node
+A template can be found in `templates/simulation_template.py`
 
 ## License
 Copyright 2023 Gabriele Ron
