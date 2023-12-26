@@ -16,13 +16,13 @@ limitations under the License.
 from abc import abstractmethod
 from collections import Counter
 from collections.abc import Sequence
-from typing import Optional
+from typing import Optional, Self, Type
 
-from project_dilemma.interfaces.base import Base, Simulations
-from project_dilemma.interfaces.node import Node
+from project_dilemma.interfaces import Generations, Node, Simulations
+from project_dilemma.interfaces.base import Base
 
 
-class Simulation(Base):
+class SimulationBase(Base):
     """simulation interface
 
     .. note::
@@ -32,26 +32,26 @@ class Simulation(Base):
     :vartype nodes: Sequence[Node]
     :var simulation_id: id of the simulation
     :vartype simulation_id: str
-    :var simulation_rounds: simulation round data
-    :vartype simulation_rounds: Simulations
+    :var simulation_data: simulation round data
+    :vartype simulation_data: Simulations
     """
     _required_attributes = [
         'nodes',
         'process_simulation',
         'run_simulation',
+        'simulation_data',
         'simulation_id',
-        'simulation_rounds'
     ]
 
     simulation_id: str
-    _simulation_rounds: Simulations
+    _simulation_data: Generations | Simulations
     _nodes: Sequence[Node]
 
     @abstractmethod
-    def __init__(self, *, nodes: Sequence[Node], simulation_id: str, simulation_rounds: Simulations = None):
+    def __init__(self, *, nodes: Sequence[Node], simulation_id: str, simulation_data: Generations | Simulations = None):
         self.nodes = nodes
         self.simulation_id = simulation_id
-        self.simulation_rounds = simulation_rounds
+        self.simulation_data = simulation_data
 
     @property
     def nodes(self) -> Sequence[Node]:
@@ -65,26 +65,58 @@ class Simulation(Base):
         self._nodes = nodes
 
     @property
-    def simulation_rounds(self) -> Simulations:
-        return self._simulation_rounds
+    def simulation_data(self) -> Generations | Simulations:
+        return self._simulation_data
 
-    @simulation_rounds.setter
-    def simulation_rounds(self, simulation_rounds: Optional[Simulations]):
-        if not simulation_rounds:
-            self._simulation_rounds = {}
+    @simulation_data.setter
+    def simulation_data(self, simulation_data: Optional[Generations | Simulations]):
+        if not simulation_data:
+            self._simulation_data = {}
         else:
-            self._simulation_rounds = simulation_rounds
+            self._simulation_data = simulation_data
 
     @abstractmethod
-    def run_simulation(self) -> Simulations:
+    def run_simulation(self) -> Generations | Simulations:
         """run the simulation
 
         :return: simulation results
-        :rtype: RoundList
+        :rtype: Simulations
         """
         raise NotImplementedError
 
     @abstractmethod
     def process_results(self):
         """process simulation results"""
+        raise NotImplementedError
+
+
+class Simulation(SimulationBase):
+    _simulation_data: Simulations
+
+    @abstractmethod
+    def __init__(self, *, nodes: Sequence[Node], simulation_id: str, simulation_data: Simulations = None):
+        super().__init__(nodes=nodes, simulation_id=simulation_id, simulation_data=simulation_data)
+
+    @abstractmethod
+    def run_simulation(self) -> Simulations:
+        raise NotImplementedError
+
+    @abstractmethod
+    def process_results(self):
+        raise NotImplementedError
+
+
+class GenerationalSimulation(SimulationBase):
+    _simulation_data: Generations
+
+    @abstractmethod
+    def __init__(self, *, nodes: Sequence[Node], simulation_id: str, simulation_data: Generations = None):
+        super().__init__(nodes=nodes, simulation_id=simulation_id, simulation_data=simulation_data)
+
+    @abstractmethod
+    def run_simulation(self) -> Generations:
+        raise NotImplementedError
+
+    @abstractmethod
+    def process_results(self):
         raise NotImplementedError

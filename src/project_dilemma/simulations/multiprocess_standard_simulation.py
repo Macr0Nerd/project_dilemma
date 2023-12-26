@@ -34,7 +34,7 @@ class MultiprocessStandardSimulation(StandardSimulation):
 
     def _collect_round(self, result: Simulations):
         """callback to collect simulation results from the pool"""
-        self.simulation_rounds.update(result)
+        self.simulation_data.update(result)
 
     def run_simulation(self) -> Simulations:
         """runs the simulation
@@ -50,7 +50,7 @@ class MultiprocessStandardSimulation(StandardSimulation):
                 game_id,
                 [first_node, second_node],
                 rounds=self.rounds,
-                simulation_rounds=self.simulation_rounds,
+                simulation_data=self.simulation_data,
                 mutations_per_mille=self.mutations_per_mille,
                 round_mutations=self.round_mutations,
                 simulation_mutations=self.simulation_mutations,
@@ -65,4 +65,4 @@ class MultiprocessStandardSimulation(StandardSimulation):
         pool.close()
         pool.join()
 
-        return self.simulation_rounds
+        return self.simulation_data

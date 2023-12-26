@@ -2,10 +2,10 @@ import importlib
 import json
 import os.path
 import sys
-from typing import Dict, List, Type
+from typing import Dict, List, Literal, Type
 
 from project_dilemma.config import ProjectDilemmaConfig
-from project_dilemma.interfaces import Algorithm, Node, Simulation, Simulations
+from project_dilemma.interfaces import Algorithm, Generations, Node, SimulationBase, Simulations
 from project_dilemma.simulations import simulations_map
 
 
@@ -53,27 +53,36 @@ def load_algorithms(config: ProjectDilemmaConfig) -> Dict[str, Type[Algorithm]]:
     return algorithm_map
 
 
-def load_rounds(config: ProjectDilemmaConfig) -> Simulations:
-    round_data = {}
+def load_simulation_data(config: ProjectDilemmaConfig) -> Generations | Simulations:
+    """load round data
 
-    if config.get('rounds_data'):
+    :param config: configuration data
+    :type config: ProjectDilemmaConfig
+    :return: simulation rounds or generations
+    :rtype: Generations | Simulations
+    """
+    data = {}
+
+    # noinspection PyTypedDict
+    if config.get('simulation_data'):
         try:
-            with open(config['rounds_data'], 'r') as f:
-                round_data = json.load(f)
+            # noinspection PyTypedDict
+            with open(config['simulation_data'], 'r') as f:
+                data = json.load(f)
         except FileNotFoundError:
             print('Rounds data file not found')
             sys.exit(1)
 
-    return round_data
+    return data
 
 
-def load_simulation(config: ProjectDilemmaConfig) -> Type[Simulation]:
+def load_simulation(config: ProjectDilemmaConfig) -> Type[SimulationBase]:
     """load the simulation
 
     :param config: configuration data
     :type config: ProjectDilemmaConfig
     :return: the configured simulation
-    :rtype: Simulation
+    :rtype: Type[SimulationBase]
     """
     if config['simulation'].get('file'):
         if not config.get('simulations_directory'):

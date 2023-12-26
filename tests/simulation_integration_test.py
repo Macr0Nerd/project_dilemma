@@ -5,7 +5,7 @@ import pytest
 import project_dilemma.config
 from project_dilemma.config import load_configuration, ProjectDilemmaConfig
 from project_dilemma.interfaces import Node
-from project_dilemma.object_loaders import create_nodes, load_algorithms, load_rounds, load_simulation
+from project_dilemma.object_loaders import create_nodes, load_algorithms, load_simulation_data, load_simulation
 from project_dilemma.simulations import StandardSimulation
 
 from algorithms.simple import AlwaysCooperate, AlwaysDefect
@@ -27,11 +27,11 @@ def test_configuration_loading(monkeypatch):
             {'node_id': 'node_2', 'algorithm': {'file': 'simple.py', 'object': 'AlwaysDefect'}},
             {'node_id': 'node_3', 'algorithm': {'file': 'tit_for_tat.py', 'object': 'TitForTat'}},
         ],
-        'rounds_data': 'examples/rounds/pytest.json',
-        'rounds_output': 'examples/rounds/pytest.json',
         'simulation': {'object': 'StandardSimulation'},
         'simulation_arguments': {'rounds': 10},
-        'simulation_output': 'examples/results/pytest.json'
+        'simulation_data': 'examples/rounds/pytest.json',
+        'simulation_data_output': 'examples/rounds/pytest.json',
+        'simulation_results_output': 'examples/results/pytest.json'
     }
 
     actual = load_configuration()
@@ -46,7 +46,7 @@ def test_object_loading(test_configuration_loading):
     with open('examples/rounds/pytest.json', 'r') as f:
         expected_rounds = json.load(f)
 
-    actual_rounds = load_rounds(test_configuration_loading)
+    actual_rounds = load_simulation_data(test_configuration_loading)
 
     assert expected_rounds == actual_rounds
 
@@ -78,11 +78,12 @@ def test_object_loading(test_configuration_loading):
 
     assert expected_nodes == actual_nodes
 
-    return actual_simulation(
+    x = actual_simulation(
         simulation_id=test_configuration_loading['simulation_id'],
         nodes=actual_nodes,
         **test_configuration_loading['simulation_arguments']
     )
+    return x
 
 
 @pytest.fixture
@@ -102,7 +103,7 @@ def test_simulation_process(test_object_loading):
     with open('examples/results/pytest.json', 'r') as f:
         expected_results = json.load(f)
 
-    test_object_loading.simulation_rounds = rounds
+    test_object_loading.simulation_data = rounds
 
     actual_results = test_object_loading.process_results()
 

@@ -53,3 +53,5 @@ Rounds = MutableSequence[Round]
 """list of moves"""
 Simulations = MutableMapping[str, Rounds]
 """maps a game name to a list of rounds"""
+Generations = MutableMapping[str, Simulations]
+"""maps a generation name to simulation data"""
