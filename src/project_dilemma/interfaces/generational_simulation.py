@@ -2,7 +2,7 @@ from abc import abstractmethod
 from collections.abc import MutableMapping, Sequence
 from copy import deepcopy
 import sys
-from typing import Any, Optional, Type
+from typing import Any, Optional
 
 import project_dilemma.interfaces.base as pd_int_base
 import project_dilemma.interfaces.node as pd_int_node
@@ -15,7 +15,7 @@ class GenerationalSimulation(pd_int_simulation.SimulationBase):
     :var generations: number of generations to run
     :vartype generations: int
     :var generational_simulation: simulation class to use
-    :vartype simulation: Type[project_dilemma.interfaces.simulation.SimulationBase]
+    :vartype simulation: type[SimulationBase]
     :var simulation_kwargs: keyword arguments to pass into the simulation
     :vartype simulation_kwargs: MutableMapping[str, Any]
     """
@@ -27,7 +27,7 @@ class GenerationalSimulation(pd_int_simulation.SimulationBase):
     ]
 
     generations: int
-    generational_simulation: Type[pd_int_simulation.SimulationBase]
+    generational_simulation: type[pd_int_simulation.SimulationBase]
     simulation_kwargs: MutableMapping[str, Any]
     _simulation_data: pd_int_base.Generations
 
@@ -35,7 +35,7 @@ class GenerationalSimulation(pd_int_simulation.SimulationBase):
                  simulation_id: str,
                  nodes: Sequence[pd_int_node.Node],
                  generations: int,
-                 generational_simulation: Type[pd_int_simulation.SimulationBase],
+                 generational_simulation: type[pd_int_simulation.SimulationBase],
                  simulation_data: Optional[pd_int_base.Simulations] = None,
                  **kwargs):
         super().__init__(nodes=nodes, simulation_id=simulation_id, simulation_data=simulation_data)

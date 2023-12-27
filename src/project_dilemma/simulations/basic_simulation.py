@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from abc import abstractmethod
 from collections.abc import Sequence
 import random
 from typing import Optional
@@ -21,7 +20,7 @@ from typing import Optional
 from project_dilemma.interfaces import Node, Round, Rounds, Simulation, Simulations
 
 
-def play_round(nodes: Sequence[Node],
+def play_round(nodes: Sequence[type[Node]],
                rounds: Rounds,
                *,
                mutations_per_mille: int,
@@ -29,8 +28,8 @@ def play_round(nodes: Sequence[Node],
     """run a round of prisoners dilemma with each node
 
     :param nodes: nodes to run
-    :type nodes: Sequence[Node]
-    :param rounds: lsit of rounds
+    :type nodes: Sequence[type[Node]]
+    :param rounds: list of rounds
     :type rounds: RoundList
     :param mutations_per_mille: rate that mutations should occur per mille
     :type mutations_per_mille: int
@@ -94,7 +93,7 @@ class BasicSimulation(Simulation):
         """run the simulation
 
         :return: simulation results
-        :rtype: RoundList
+        :rtype: Rounds
         """
         game_id = ':'.join(sorted(node.node_id for node in self.nodes))
 

@@ -29,7 +29,7 @@ class SimulationBase(pd_int_base.Base):
     all the nodes must have unique node ids
 
     :var nodes: node data for the simulation
-    :vartype nodes: Sequence[Node]
+    :vartype nodes: Sequence[Type[Node]]
     :var simulation_id: id of the simulation
     :vartype simulation_id: str
     :var simulation_data: simulation round data
@@ -45,7 +45,7 @@ class SimulationBase(pd_int_base.Base):
 
     simulation_id: str
     _simulation_data: pd_int_base.Generations | pd_int_base.Simulations
-    _nodes: Sequence[pd_int_node.Node]
+    _nodes: Sequence[type[pd_int_node.Node]]
 
     @abstractmethod
     def __init__(self,
@@ -59,11 +59,11 @@ class SimulationBase(pd_int_base.Base):
         self.simulation_data = simulation_data
 
     @property
-    def nodes(self) -> Sequence[pd_int_node.Node]:
+    def nodes(self) -> Sequence[type[pd_int_node.Node]]:
         return self._nodes
 
     @nodes.setter
-    def nodes(self, nodes: Sequence[pd_int_node.Node]):
+    def nodes(self, nodes: Sequence[type[pd_int_node.Node]]):
         if max(Counter([node.node_id for node in nodes]).values()) > 1:
             raise ValueError('All node ids provided must be unique')
 

@@ -15,7 +15,7 @@ limitations under the License.
 """
 from abc import abstractmethod
 from collections.abc import Sequence
-from typing import Optional, Self, Type
+from typing import Optional, Self
 
 import project_dilemma.interfaces.base as pd_int_base
 
@@ -37,9 +37,9 @@ class Algorithm(pd_int_base.Base):
     ]
 
     algorithm_id: str
-    mutations: Optional[Sequence[Type[Self]]] = None
+    mutations: Optional[Sequence[type[Self]]] = None
 
-    def __init__(self, mutations: Optional[Sequence[Type[Self]]] = None, **kwargs) -> None:
+    def __init__(self, mutations: Optional[Sequence[type[Self]]] = None, **kwargs) -> None:
         self.mutations = mutations
 
     def __eq__(self, other: Self):
@@ -51,7 +51,7 @@ class Algorithm(pd_int_base.Base):
         """decide whether to cooperate or not
 
         :param rounds: the list of moves
-        :type rounds: MoveList
+        :type rounds: Rounds
         :return: whether to cooperate or not
         :rtype: bool
         """

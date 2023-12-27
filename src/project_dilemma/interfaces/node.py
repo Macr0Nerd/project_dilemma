@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import random
-from typing import Self, Type
+from typing import Self
 
 import project_dilemma.interfaces.algorithm as pd_int_algorithm
 import project_dilemma.interfaces.base as pd_int_base
@@ -28,7 +28,7 @@ class Node(pd_int_base.Base):
     :var node_id: id of the node
     :vartype node_id: str
     :var algorithm: cooperation algorithm
-    :vartype algorithm: Type[Algorithm]
+    :vartype algorithm: type[Algorithm]
     """
     _required_attributes = [
         'algorithm',
@@ -37,9 +37,9 @@ class Node(pd_int_base.Base):
     ]
 
     node_id: str
-    algorithm: Type[pd_int_algorithm.Algorithm]
+    algorithm: type[pd_int_algorithm.Algorithm]
 
-    def __init__(self, node_id: str, algorithm: Type[pd_int_algorithm.Algorithm], **kwargs):
+    def __init__(self, node_id: str, algorithm: type[pd_int_algorithm.Algorithm], **kwargs):
         self.node_id = node_id
         self.algorithm = algorithm
 

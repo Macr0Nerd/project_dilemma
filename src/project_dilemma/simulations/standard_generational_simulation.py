@@ -1,5 +1,3 @@
-import math
-
 from project_dilemma.interfaces import GenerationalSimulation, Node
 
 

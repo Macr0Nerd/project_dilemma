@@ -2,21 +2,22 @@ import importlib
 import json
 import os.path
 import sys
-from typing import Dict, List, Type
+from typing import Dict, List
 
 from project_dilemma.config import ProjectDilemmaConfig
 from project_dilemma.interfaces import Algorithm, Generations, Node, SimulationBase, Simulations
 from project_dilemma.simulations import simulations_map
 
 
-def create_nodes(config: ProjectDilemmaConfig, algorithms_map: Dict[str, Type[Algorithm]]) -> List[Node]:
+def create_nodes(config: ProjectDilemmaConfig, algorithms_map: Dict[str, type[Algorithm]]) -> List[type[Node]]:
     """create the simulation nodes
 
     :param config: configuration data
     :type config: ProjectDilemmaConfig
     :param algorithms_map: map of algorithm class names to algorithms
-    :type algorithms_map: Dict[str, Type[Algorithm]]
-    :return:
+    :type algorithms_map: Dict[str, type[Algorithm]]
+    :return: list of nodes
+    :rtype: List[type[Node]]
     """
     nodes = []
 
@@ -26,18 +27,18 @@ def create_nodes(config: ProjectDilemmaConfig, algorithms_map: Dict[str, Type[Al
     return nodes
 
 
-def load_algorithms(config: ProjectDilemmaConfig) -> Dict[str, Type[Algorithm]]:
+def load_algorithms(config: ProjectDilemmaConfig) -> Dict[str, type[Algorithm]]:
     """load all algorithms used
 
     :param config: configuration data
     :type config: ProjectDilemmaConfig
     :return: map of algorithm class names to algorithms
-    :rtype: Dict[str, Type[Algorithm]]
+    :rtype: Dict[str, type[Algorithm]]
     """
     sys.path.append(config['algorithms_directory'])
 
     algorithms = [node['algorithm'] for node in config['nodes']]
-    algorithm_map: Dict[str, Type[Algorithm]] = {}
+    algorithm_map: Dict[str, type[Algorithm]] = {}
 
     for algorithm in algorithms:
         if algorithm_map.get(algorithm['object']):
@@ -76,7 +77,7 @@ def load_simulation_data(config: ProjectDilemmaConfig) -> Generations | Simulati
     return data
 
 
-def load_simulation(config: ProjectDilemmaConfig, *, generational: bool = False) -> Type[SimulationBase]:
+def load_simulation(config: ProjectDilemmaConfig, *, generational: bool = False) -> type[SimulationBase]:
     """load the simulation
 
     :param config: configuration data
@@ -84,7 +85,7 @@ def load_simulation(config: ProjectDilemmaConfig, *, generational: bool = False)
     :param generational: if the generational simulation should be loaded
     :type generational: bool
     :return: the configured simulation
-    :rtype: Type[SimulationBase]
+    :rtype: type[SimulationBase]
     """
     key = 'simulation'
     if generational:
