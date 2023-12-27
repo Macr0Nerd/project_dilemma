@@ -23,7 +23,7 @@ import project_dilemma.interfaces.base as pd_int_base
 class Node(pd_int_base.Base):
     """simulation node interface
 
-    The interface for the nodes which will run in the simulation
+    The interface for the nodes which will run in the simulations
 
     :var node_id: id of the node
     :vartype node_id: str
@@ -44,7 +44,7 @@ class Node(pd_int_base.Base):
         self.algorithm = algorithm
 
     def __eq__(self, other: Self):
-        return (self.node_id == other.node_id) and (self.algorithm.algorithm_id == other.algorithm.algorithm_id)
+        return (self.node_id == other.node_id) and (self.algorithm == other.algorithm)
 
     def mutate(self):
         """set the node to a random algorithm mutation"""

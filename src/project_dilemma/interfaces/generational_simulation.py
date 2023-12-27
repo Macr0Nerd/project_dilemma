@@ -1,5 +1,6 @@
 from abc import abstractmethod
 from collections.abc import MutableMapping, Sequence
+from copy import deepcopy
 import sys
 from typing import Any, Optional, Type
 
@@ -13,7 +14,7 @@ class GenerationalSimulation(pd_int_simulation.SimulationBase):
 
     :var generations: number of generations to run
     :vartype generations: int
-    :var simulation: simulation class to use
+    :var generational_simulation: simulation class to use
     :vartype simulation: Type[project_dilemma.interfaces.simulation.SimulationBase]
     :var simulation_kwargs: keyword arguments to pass into the simulation
     :vartype simulation_kwargs: MutableMapping[str, Any]
@@ -21,12 +22,12 @@ class GenerationalSimulation(pd_int_simulation.SimulationBase):
     required_attributes = [
         'generation_hook'
         'generations',
-        'simulation'
+        'generational_simulation'
         'simulations_kwargs'
     ]
 
     generations: int
-    simulation: Type[pd_int_simulation.SimulationBase]
+    generational_simulation: Type[pd_int_simulation.SimulationBase]
     simulation_kwargs: MutableMapping[str, Any]
     _simulation_data: pd_int_base.Generations
 
@@ -34,51 +35,60 @@ class GenerationalSimulation(pd_int_simulation.SimulationBase):
                  simulation_id: str,
                  nodes: Sequence[pd_int_node.Node],
                  generations: int,
-                 simulation: Type[pd_int_simulation.SimulationBase],
+                 generational_simulation: Type[pd_int_simulation.SimulationBase],
                  simulation_data: Optional[pd_int_base.Simulations] = None,
                  **kwargs):
         super().__init__(nodes=nodes, simulation_id=simulation_id, simulation_data=simulation_data)
         self.generations = generations
-        self.simulation = simulation
+        self.generational_simulation = generational_simulation
         self.simulation_kwargs = kwargs
 
     @abstractmethod
     def generation_hook(self):
-        """process simulation information to make generational changes"""
+        """process generational_simulation information to make generational changes"""
         raise NotImplementedError
 
     def run_simulation(self) -> pd_int_base.Generations:
         game_id = ':'.join(sorted(node.node_id for node in self.nodes))
-        for generation_index in range(len(self.simulation_data), self.generations):
+        sim_data_copy = deepcopy(self.simulation_data)
+
+        self.simulation_data = {}
+        for generation_index in range(self.generations):
             generation_id = f'generation_{generation_index}'
 
-            if not self.simulation_data[generation_id]:
+            # Rebuild existing generational data
+            if generation_index < len(self.simulation_data):
+                self.simulation_data[generation_id] = sim_data_copy[generation_id]
+                self.generation_hook()
+                continue
+
+            if not self.simulation_data.get(generation_id):
                 self.simulation_data[generation_id] = {}
 
-            simulation = self.simulation(
-                f'{generation_id}[{game_id}]',
-                self.nodes,
-                self.simulation_data[generation_id],
+            simulation = self.generational_simulation(**{
+                'simulation_id': f'{generation_id}[{game_id}]',
+                'nodes': self.nodes,
+                'simulation_data': self.simulation_data[generation_id],
                 **self.simulation_kwargs
-            )
+            })
 
-            self.simulation_data[generation_id].update(simulation.process_results())
+            self.simulation_data[generation_id].update(simulation.run_simulation())
             self.generation_hook()
 
         return self.simulation_data
 
     def process_results(self) -> MutableMapping[str, Any]:
-        simulation = self.simulation(
-            'process_results',
-            self.nodes,
-            {},
+        simulation = self.generational_simulation(**{
+            'simulation_id': 'process_results',
+            'nodes': self.nodes,
+            'simulation_data': {},
             **self.simulation_kwargs
-        )
+        })
 
         try:
             simulation.process_results()
         except NotImplementedError:
-            print('The provided simulation class has not implemented results processing')
+            print('The provided generational_simulation class has not implemented results processing')
             sys.exit(1)
 
         results = {}

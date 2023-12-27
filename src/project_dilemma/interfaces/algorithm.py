@@ -23,6 +23,9 @@ import project_dilemma.interfaces.base as pd_int_base
 class Algorithm(pd_int_base.Base):
     """cooperation algorithm interface
 
+    ..note::
+    the equality check only takes into account the algorithm_id; mutations are not factored in
+
     :var algorithm_id: id of the algorithm
     :vartype algorithm_id: str
     :var mutations: list of possible mutations
@@ -38,6 +41,9 @@ class Algorithm(pd_int_base.Base):
 
     def __init__(self, mutations: Optional[Sequence[Type[Self]]] = None, **kwargs) -> None:
         self.mutations = mutations
+
+    def __eq__(self, other: Self):
+        return self.algorithm_id == other.algorithm_id
 
     @staticmethod
     @abstractmethod

@@ -37,7 +37,7 @@ def main() -> int:
         simulation_id=config['simulation_id'],
         nodes=nodes,
         simulation_data=simulation_data,
-        simulation=generational_simulation_class,
+        generational_simulation=generational_simulation_class,
         **config['simulation_arguments']
     )
 
