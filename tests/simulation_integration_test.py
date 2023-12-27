@@ -15,7 +15,7 @@ from algorithms.tit_for_tat import TitForTat
 @pytest.fixture
 def test_configuration_loading(monkeypatch):
     def mock_args():
-        return {'config': 'examples/config/pytest.toml'}
+        return {'config': 'tests/data/config/pytest.toml'}
 
     monkeypatch.setattr(project_dilemma.config, 'arguments', mock_args)
 
@@ -29,9 +29,9 @@ def test_configuration_loading(monkeypatch):
         ],
         'simulation': {'object': 'StandardSimulation'},
         'simulation_arguments': {'rounds': 10},
-        'simulation_data': 'examples/rounds/pytest.json',
-        'simulation_data_output': 'examples/rounds/pytest.json',
-        'simulation_results_output': 'examples/results/pytest.json'
+        'simulation_data': 'tests/data/rounds/pytest.json',
+        'simulation_data_output': 'tests/data/rounds/pytest.json',
+        'simulation_results_output': 'tests/data/results/pytest.json'
     }
 
     actual = load_configuration()
@@ -43,7 +43,7 @@ def test_configuration_loading(monkeypatch):
 
 @pytest.fixture
 def test_object_loading(test_configuration_loading):
-    with open('examples/rounds/pytest.json', 'r') as f:
+    with open('tests/data/rounds/pytest.json', 'r') as f:
         expected_rounds = json.load(f)
 
     actual_rounds = load_simulation_data(test_configuration_loading)
@@ -88,7 +88,7 @@ def test_object_loading(test_configuration_loading):
 
 @pytest.fixture
 def test_simulation_run(test_object_loading):
-    with open('examples/rounds/pytest.json', 'r') as f:
+    with open('tests/data/rounds/pytest.json', 'r') as f:
         expected_rounds = json.load(f)
 
     actual_rounds = test_object_loading.run_simulation()
@@ -97,10 +97,10 @@ def test_simulation_run(test_object_loading):
 
 
 def test_simulation_process(test_object_loading):
-    with open('examples/rounds/pytest.json', 'r') as f:
+    with open('tests/data/rounds/pytest.json', 'r') as f:
         rounds = json.load(f)
 
-    with open('examples/results/pytest.json', 'r') as f:
+    with open('tests/data/results/pytest.json', 'r') as f:
         expected_results = json.load(f)
 
     test_object_loading.simulation_data = rounds
