@@ -25,13 +25,13 @@ class SimulationTemplate(Simulation):
         super().__init__(nodes=nodes, simulation_id=simulation_id, simulation_data=simulation_data)
 
     def run_simulation(self) -> Simulations:
-        """run the simulation
+        """run the generational_simulation
 
-        :return: simulation results
+        :return: generational_simulation results
         :rtype: Simulations
         """
         raise NotImplemented
 
     def process_results(self):
-        """process simulation results"""
+        """process generational_simulation results"""
         raise NotImplemented
