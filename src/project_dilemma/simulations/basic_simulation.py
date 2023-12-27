@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+from abc import abstractmethod
 from collections.abc import Sequence
 import random
 from typing import Optional
@@ -49,7 +50,7 @@ def play_round(nodes: Sequence[Node],
 
 
 class BasicSimulation(Simulation):
-    """simulation interface
+    """basic simulation
 
     :var mutations_per_mille: rate that mutations should occur per mille
     :vartype mutations_per_mille: int
@@ -61,8 +62,6 @@ class BasicSimulation(Simulation):
     :vartype round_mutations: bool
     :var simulation_mutations: if nodes can mutate after a simulation
     :vartype simulation_mutations: bool
-    :var simulation_rounds: list of rounds
-    :vartype simulation_rounds: Simulations
     """
     mutations_per_mille: int
     noise: bool
@@ -70,20 +69,20 @@ class BasicSimulation(Simulation):
     rounds: int
     round_mutations: bool
     simulation_mutations: bool
-    simulation_rounds: Simulations
 
     def __init__(self,
                  simulation_id: str,
                  nodes: Sequence[Node],
                  rounds: int,
-                 simulation_rounds: Optional[Simulations] = None,
+                 simulation_data: Optional[Simulations] = None,
                  *,
                  mutations_per_mille: int = 0,
                  noise: bool = False,
                  noise_per_mille: int = 0,
                  round_mutations: bool = False,
-                 simulation_mutations: bool = False, ):
-        super().__init__(nodes=nodes, simulation_id=simulation_id, simulation_rounds=simulation_rounds)
+                 simulation_mutations: bool = False,
+                 **kwargs):
+        super().__init__(nodes=nodes, simulation_id=simulation_id, simulation_data=simulation_data)
         self.rounds = rounds
         self.mutations_per_mille = mutations_per_mille
         self.noise = noise
@@ -99,26 +98,26 @@ class BasicSimulation(Simulation):
         """
         game_id = ':'.join(sorted(node.node_id for node in self.nodes))
 
-        if not self.simulation_rounds.get(game_id):
-            self.simulation_rounds[game_id] = []
+        if not self.simulation_data.get(game_id):
+            self.simulation_data[game_id] = []
 
-        while len(self.simulation_rounds[game_id]) < self.rounds:
-            self.simulation_rounds[game_id].append(play_round(
-                nodes=self.nodes, rounds=self.simulation_rounds[game_id],
+        while len(self.simulation_data[game_id]) < self.rounds:
+            self.simulation_data[game_id].append(play_round(
+                nodes=self.nodes, rounds=self.simulation_data[game_id],
                 mutations_per_mille=self.mutations_per_mille, round_mutations=self.round_mutations
             ))
 
             if self.noise:
-                for node, decision in self.simulation_rounds[game_id][-1].items():
+                for node, decision in self.simulation_data[game_id][-1].items():
                     if random.randrange(0, 1000) < self.noise_per_mille:
-                        self.simulation_rounds[game_id][-1][node] = not decision
+                        self.simulation_data[game_id][-1][node] = not decision
 
         if self.simulation_mutations:
             for node in self.nodes:
                 if random.randrange(0, 1000) < self.mutations_per_mille:
                     node.mutate()
 
-        return self.simulation_rounds
+        return self.simulation_data
 
     def process_results(self):
         raise NotImplementedError

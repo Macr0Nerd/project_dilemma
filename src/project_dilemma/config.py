@@ -21,13 +21,14 @@ class NodeConfig(TypedDict):
 
 class ProjectDilemmaConfig(TypedDict):
     algorithms_directory: str
+    generational_simulation: NotRequired[DynamicImport]
     nodes: List[NodeConfig]
-    rounds_data: NotRequired[str]
-    rounds_output: NotRequired[str]
     simulation: DynamicImport
     simulation_id: str
     simulation_arguments: Dict[str, Any]
-    simulation_output: NotRequired[str]
+    simulation_data: NotRequired[str]
+    simulation_data_output: NotRequired[str]
+    simulation_results_output: NotRequired[str]
     simulations_directory: NotRequired[str]
 
 
@@ -44,21 +45,20 @@ def arguments() -> dict:
 
     parser_config = parser.add_argument_group('configuration')
     parser_config.add_argument('-c', '--config', help='specify configuration file to use')
-    parser_config.add_argument('--simulation', help='simulation to run')
     parser_config.add_argument('--algorithms-directory', help='directory containing algorithm files',
                                dest='algorithms_directory')
     parser_config.add_argument('--simulations-directory', help='directory containing simulation files',
                                dest='simulations_directory')
 
     parser_in = parser.add_argument_group('input')
-    parser_in.add_argument('--rounds-data', help='specify path to rounds data in JSON',
-                           dest='rounds_data')
+    parser_in.add_argument('--simulation-data', help='specify path to simulation data in JSON',
+                           dest='generations_data')
 
     parser_out = parser.add_argument_group('output')
-    parser_out.add_argument('-rO', '--rounds-output', help='output the rounds data as JSON',
-                            dest='rounds_output')
-    parser_out.add_argument('-sO', '--simulation-output', help='output the results as JSON',
-                            dest='simulation_output')
+    parser_out.add_argument('-gO', '--simulation-data-output', help='output the simulation data as JSON',
+                            dest='simulation_data_output')
+    parser_out.add_argument('-sO', '--simulation-result-output', help='output the results as JSON',
+                            dest='simulation_results_output')
 
     if len(sys.argv) <= 1:
         parser.print_help()

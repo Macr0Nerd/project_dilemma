@@ -46,6 +46,14 @@ class Base(metaclass=ABCMeta):
 
         return NotImplemented
 
+    @property
+    def required_attributes(self):
+        return self._required_attributes
+
+    @required_attributes.setter
+    def required_attributes(self, required_attributes: Sequence[str]):
+        self._required_attributes += required_attributes
+
 
 Round = MutableMapping[str, bool]
 """maps the node to whether or not it cooperated"""
@@ -53,3 +61,5 @@ Rounds = MutableSequence[Round]
 """list of moves"""
 Simulations = MutableMapping[str, Rounds]
 """maps a game name to a list of rounds"""
+Generations = MutableMapping[str, Simulations]
+"""maps a generation name to simulation data"""

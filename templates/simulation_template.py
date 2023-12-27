@@ -21,17 +21,17 @@ from project_dilemma.interfaces import Node, Simulation, Simulations
 
 class SimulationTemplate(Simulation):
     @abstractmethod
-    def __init__(self, nodes: Sequence[Node], simulation_id: str, simulation_rounds: Simulations = None):
-        super().__init__(nodes=nodes, simulation_id=simulation_id, simulation_rounds=simulation_rounds)
+    def __init__(self, nodes: Sequence[Node], simulation_id: str, simulation_data: Simulations = None):
+        super().__init__(nodes=nodes, simulation_id=simulation_id, simulation_data=simulation_data)
 
     def run_simulation(self) -> Simulations:
-        """run the simulation
+        """run the generational_simulation
 
-        :return: simulation results
+        :return: generational_simulation results
         :rtype: Simulations
         """
         raise NotImplemented
 
     def process_results(self):
-        """process simulation results"""
+        """process generational_simulation results"""
         raise NotImplemented

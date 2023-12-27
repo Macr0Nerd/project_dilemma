@@ -17,18 +17,21 @@ from abc import abstractmethod
 from collections.abc import Sequence
 from typing import Optional, Self, Type
 
-from project_dilemma.interfaces.base import Base, Rounds
+import project_dilemma.interfaces.base as pd_int_base
 
 
-class Algorithm(Base):
+class Algorithm(pd_int_base.Base):
     """cooperation algorithm interface
+
+    ..note::
+    the equality check only takes into account the algorithm_id; mutations are not factored in
 
     :var algorithm_id: id of the algorithm
     :vartype algorithm_id: str
     :var mutations: list of possible mutations
     :vartype mutations: List[Algorithm]
     """
-    _required_attributes = [
+    required_attributes = [
         'algorithm_id',
         'decide',
     ]
@@ -36,12 +39,15 @@ class Algorithm(Base):
     algorithm_id: str
     mutations: Optional[Sequence[Type[Self]]] = None
 
-    def __init__(self, mutations: Optional[Sequence[Type[Self]]] = None) -> None:
+    def __init__(self, mutations: Optional[Sequence[Type[Self]]] = None, **kwargs) -> None:
         self.mutations = mutations
+
+    def __eq__(self, other: Self):
+        return self.algorithm_id == other.algorithm_id
 
     @staticmethod
     @abstractmethod
-    def decide(rounds: Rounds) -> bool:
+    def decide(rounds: pd_int_base.Rounds) -> bool:
         """decide whether to cooperate or not
 
         :param rounds: the list of moves

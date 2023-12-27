@@ -38,7 +38,7 @@ class StandardSimulation(BasicSimulation):
                 game_id,
                 [first_node, second_node],
                 rounds=self.rounds,
-                simulation_rounds=self.simulation_rounds,
+                simulation_data=self.simulation_data,
                 mutations_per_mille=self.mutations_per_mille,
                 round_mutations=self.round_mutations,
                 simulation_mutations=self.simulation_mutations,
@@ -46,9 +46,9 @@ class StandardSimulation(BasicSimulation):
                 noise_per_mille=self.noise_per_mille
             )
 
-            self.simulation_rounds.update(simulation.run_simulation())
+            self.simulation_data.update(simulation.run_simulation())
 
-        return self.simulation_rounds
+        return self.simulation_data
 
     def process_results(self) -> MutableMapping[str, int]:
         """process the simulation results
@@ -60,7 +60,7 @@ class StandardSimulation(BasicSimulation):
         """
 
         results = {}
-        for game_id, rounds in self.simulation_rounds.items():
+        for game_id, rounds in self.simulation_data.items():
             if rounds:
                 nodes = list(rounds[0].keys())
 

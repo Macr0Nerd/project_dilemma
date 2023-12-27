@@ -16,14 +16,14 @@ limitations under the License.
 import random
 from typing import Self, Type
 
-from project_dilemma.interfaces import Algorithm
-from project_dilemma.interfaces.base import Base
+import project_dilemma.interfaces.algorithm as pd_int_algorithm
+import project_dilemma.interfaces.base as pd_int_base
 
 
-class Node(Base):
+class Node(pd_int_base.Base):
     """simulation node interface
 
-    The interface for the nodes which will run in the simulation
+    The interface for the nodes which will run in the simulations
 
     :var node_id: id of the node
     :vartype node_id: str
@@ -37,14 +37,14 @@ class Node(Base):
     ]
 
     node_id: str
-    algorithm: Type[Algorithm]
+    algorithm: Type[pd_int_algorithm.Algorithm]
 
-    def __init__(self, node_id: str, algorithm: Type[Algorithm]):
+    def __init__(self, node_id: str, algorithm: Type[pd_int_algorithm.Algorithm], **kwargs):
         self.node_id = node_id
         self.algorithm = algorithm
 
     def __eq__(self, other: Self):
-        return (self.node_id == other.node_id) and (self.algorithm.algorithm_id == other.algorithm.algorithm_id)
+        return (self.node_id == other.node_id) and (self.algorithm == other.algorithm)
 
     def mutate(self):
         """set the node to a random algorithm mutation"""

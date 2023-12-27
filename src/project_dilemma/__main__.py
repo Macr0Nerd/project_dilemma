@@ -17,29 +17,35 @@ import json
 import sys
 
 from project_dilemma.config import load_configuration, ProjectDilemmaConfig
-from project_dilemma.object_loaders import create_nodes, load_algorithms, load_rounds, load_simulation
+from project_dilemma.interfaces import GenerationalSimulation
+from project_dilemma.object_loaders import create_nodes, load_algorithms, load_simulation_data, load_simulation
 
 
 def main() -> int:
     config: ProjectDilemmaConfig = load_configuration()
 
     simulation_class = load_simulation(config)
+    generational_simulation_class = None
+    if issubclass(simulation_class, GenerationalSimulation):
+        generational_simulation_class = load_simulation(config, generational=True)
+
     algorithms_map = load_algorithms(config)
     nodes = create_nodes(config, algorithms_map)
-    rounds = load_rounds(config)
+    simulation_data = load_simulation_data(config)
 
     simulation = simulation_class(
         simulation_id=config['simulation_id'],
         nodes=nodes,
-        simulation_rounds=rounds,
+        simulation_data=simulation_data,
+        generational_simulation=generational_simulation_class,
         **config['simulation_arguments']
     )
 
     simulation_rounds = simulation.run_simulation()
 
-    if config.get('rounds_output'):
+    if config.get('simulation_data_output'):
         try:
-            with open(config['rounds_output'], 'w') as f:
+            with open(config['simulation_data_output'], 'w') as f:
                 json.dump(simulation_rounds, f)
         except FileNotFoundError:
             print('Rounds output file could not be written to')
@@ -47,9 +53,9 @@ def main() -> int:
 
     simulation_results = simulation.process_results()
 
-    if config.get('simulation_output'):
+    if config.get('simulation_results_output'):
         try:
-            with open(config['simulation_output'], 'w') as f:
+            with open(config['simulation_results_output'], 'w') as f:
                 json.dump(simulation_results, f)
         except FileNotFoundError:
             print('Simulation output file could not be written to')
