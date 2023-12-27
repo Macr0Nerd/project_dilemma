@@ -35,34 +35,37 @@ This is a human-readable format that is easy to write.
 The schema has been provided below:
 
 ```toml
+simulation_id = "name of simulation"
 algorithms_directory = "/path/to/algorithms/"
 nodes = [ { node_id = "node_1", algorithm = { file = "foo.py", object = "Foo" } },
           { node_id = "node_2", algorithm = { file = "bar/baz.py", object = "Baz" } } ]
-rounds_data = "path/to/round.json"
-rounds_output = "path/to/round.json"
-simulation = { file = "foobar.py", object = "FooBar" }
-simulation_id = "name of simulation"
+simulation = { file = "foobar.py", object = "GenerationalFooBar" }
+generational_simulation = { file = "foobar.py", object = "FooBar" }
 simulation_arguments = { foo = "bar" }
-simulation_results = "path/to/results.json"
+simulation_data = "path/to/round.json"
+simulation_data_output = "path/to/round.json"
+simulation_results_output = "path/to/results.json"
 simulations_directory = "/path/to/simulations/"
 ```
 
 * algorithms_directory
   * A path to the directory containing the algorithms files
+* generational_simulation
+  * The simulation to run for each generation in a generational simulation as a [Dynamic Import](#dynamic-imports)
 * nodes
   * An array of tables that specify a node id and an algorithm, as defined in the [Dynamic Imports](#dynamic-imports)
 section
-* rounds_data
-  * Path to a JSON file containing previous round data
-* rounds_output
-  * Path to write the round data as a JSON
-* simulation:
-  * A [Dynamic Import](#dynamic-imports)
+* simulation
+  * The simulation to run as a [Dynamic Import](#dynamic-imports)
 * simulation_id
   * The name of the simulation
 * simulation_arguments
   * Arguments to pass into the simulation
-* simulation_results
+* simulation_data
+  * Path to a JSON file containing previous simulation data
+* simulation_data_output
+  * Path to write the simulation data as a JSON
+* simulation_results_output
   * Path to write the simulation results
 * simulations_directory
   * A path to the directory containing additional simulation files
