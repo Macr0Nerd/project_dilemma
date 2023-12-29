@@ -17,6 +17,7 @@ class DynamicImport(TypedDict):
 class NodeConfig(TypedDict):
     node_id: str
     algorithm: DynamicImport
+    quantity: NotRequired[int]
 
 
 class ProjectDilemmaConfig(TypedDict):

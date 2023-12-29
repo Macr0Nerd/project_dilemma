@@ -38,7 +38,7 @@ The schema has been provided below:
 ```toml
 simulation_id = "name of simulation"
 algorithms_directory = "/path/to/algorithms/"
-nodes = [ { node_id = "node_1", algorithm = { file = "foo.py", object = "Foo" } },
+nodes = [ { node_id = "node_1", algorithm = { file = "foo.py", object = "Foo" }, quantity = 11 },
           { node_id = "node_2", algorithm = { file = "bar/baz.py", object = "Baz" } } ]
 simulation = { file = "foobar.py", object = "GenerationalFooBar" }
 generational_simulation = { file = "foobar.py", object = "FooBar" }
@@ -54,7 +54,11 @@ simulations_directory = "/path/to/simulations/"
 * generational_simulation
   * The simulation to run for each generation in a generational simulation as a [Dynamic Import](#dynamic-imports)
 * nodes
-  * An array of tables that specify a node id and an algorithm, as defined in the [Dynamic Imports](#dynamic-imports)
+  * An array of tables that specify:
+    * node id
+    * algorithm, as defined in the [Dynamic Imports](#dynamic-imports)
+    * quantity, if not specified then 1 node is assumed
+      * Note: the node index will be appended to the node_id
 section
 * simulation
   * The simulation to run as a [Dynamic Import](#dynamic-imports)
