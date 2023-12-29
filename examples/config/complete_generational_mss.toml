@@ -1,14 +1,14 @@
 simulation_id = "Complete StandardGenerationalSimulation for MultiprocessStandardSimulation"
 algorithms_directory = "examples/algorithms/"
-nodes = [ { node_id = "always_cooperate", algorithm = { file = "simple.py", object = "AlwaysCooperate" } },
-          { node_id = "always_defect", algorithm = { file = "simple.py", object = "AlwaysDefect" } },
-          { node_id = "grim_trigger", algorithm = { file = "grudge.py", object = "GrimTrigger" } },
-          { node_id = "random_cooperation", algorithm = { file = "simple.py", object = "RandomCooperation" } },
-          { node_id = "tit_for_tat", algorithm = { file = "tit_for_tat.py", object = "TitForTat" } },
-          { node_id = "tit_for_two_tats", algorithm = { file = "tit_for_tat.py", object = "TitForTwoTats" } },
-          { node_id = "two_tits_for_tat", algorithm = { file = "tit_for_tat.py", object = "TwoTitsForTat" } } ]
+nodes = [ { node_id = "always_cooperate_", algorithm = { file = "simple.py", object = "AlwaysCooperate"}, quantity = 10 },
+          { node_id = "always_defect_", algorithm = { file = "simple.py", object = "AlwaysDefect" }, quantity = 10 },
+          { node_id = "grim_trigger_", algorithm = { file = "grudge.py", object = "GrimTrigger" }, quantity = 10 },
+          { node_id = "random_cooperation_", algorithm = { file = "simple.py", object = "RandomCooperation" }, quantity = 10 },
+          { node_id = "tit_for_tat_", algorithm = { file = "tit_for_tat.py", object = "TitForTat" }, quantity = 10 },
+          { node_id = "tit_for_two_tats_", algorithm = { file = "tit_for_tat.py", object = "TitForTwoTats" }, quantity = 10 },
+          { node_id = "two_tits_for_tat_", algorithm = { file = "tit_for_tat.py", object = "TwoTitsForTat" }, quantity = 10 } ]
 simulation = { object = "StandardGenerationalSimulation" }
 generational_simulation = { object = 'MultiprocessStandardSimulation' }
-simulation_arguments = { generations = 10, rounds = 200 }
+simulation_arguments = { generations = 10, rounds = 200, pool_size = 4 }
 simulation_data_output = "examples/rounds/complete_generational_mss.json"
 simulation_results_output = "examples/results/complete_generational_mss.json"

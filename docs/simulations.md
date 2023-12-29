@@ -45,3 +45,5 @@ points per algorithm to the average points per algorithm.
 This simulation accepts one additional argument:
 * generations | int
   * The number of generations to run
+
+**WARNING: USING A LOT OF GENERATIONS, ROUNDS, AND NODES CAN CAUSE THIS SIMULATION TO USE A LOT OF PROCESSING POWER**

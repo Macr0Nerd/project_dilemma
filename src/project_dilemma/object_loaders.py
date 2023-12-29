@@ -22,7 +22,12 @@ def create_nodes(config: ProjectDilemmaConfig, algorithms_map: Dict[str, type[Al
     nodes = []
 
     for node in config['nodes']:
-        nodes.append(Node(node['node_id'], algorithms_map[node['algorithm']['object']]))
+        if not node.get('quantity'):
+            nodes.append(Node(node["node_id"], algorithms_map[node['algorithm']['object']]))
+            continue
+
+        for i in range(node['quantity']):
+            nodes.append(Node(f'{node["node_id"]}{i}', algorithms_map[node['algorithm']['object']]))
 
     return nodes
 
