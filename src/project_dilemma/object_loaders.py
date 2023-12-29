@@ -23,7 +23,8 @@ def create_nodes(config: ProjectDilemmaConfig, algorithms_map: Dict[str, type[Al
 
     for node in config['nodes']:
         if not node.get('quantity'):
-            node['quantity'] = 1
+            nodes.append(Node(node["node_id"], algorithms_map[node['algorithm']['object']]))
+            continue
 
         for i in range(node['quantity']):
             nodes.append(Node(f'{node["node_id"]}{i}', algorithms_map[node['algorithm']['object']]))
