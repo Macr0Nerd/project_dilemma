@@ -40,7 +40,8 @@ This function takes the processed results of the last generation and for each __
 population size for each __algorithm__ based on the ratio of the difference of the algorithm points and the average
 points per algorithm to the average points per algorithm.
 
-    population_change = algorithm_population * ((algorithm_points - average_points)/average_points)
+    points_distance = (algorithm_points - average_points)/average_points
+    population_change = floor(sqrt(abs(algorithm_population * points_distance))) * sign_of_points_distance
 
 This simulation accepts one additional argument:
 * generations | int
