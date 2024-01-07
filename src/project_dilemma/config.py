@@ -2,7 +2,7 @@ import argparse
 import os.path
 import sys
 import tomllib
-from typing import Any, Dict, List, NotRequired, TypedDict
+from typing import Any, NotRequired, TypedDict
 
 import platformdirs
 
@@ -23,10 +23,10 @@ class NodeConfig(TypedDict):
 class ProjectDilemmaConfig(TypedDict):
     algorithms_directory: str
     generational_simulation: NotRequired[DynamicImport]
-    nodes: List[NodeConfig]
+    nodes: list[NodeConfig]
     simulation: DynamicImport
     simulation_id: str
-    simulation_arguments: Dict[str, Any]
+    simulation_arguments: dict[str, Any]
     simulation_data: NotRequired[str]
     simulation_data_output: NotRequired[str]
     simulation_results_output: NotRequired[str]
