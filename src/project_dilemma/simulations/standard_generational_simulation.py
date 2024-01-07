@@ -1,3 +1,5 @@
+import math
+
 from project_dilemma.interfaces import GenerationalSimulation, Node
 
 
@@ -33,6 +35,12 @@ class StandardGenerationalSimulation(GenerationalSimulation):
         for algorithm, points in algorithm_points.items():
             point_ratio = (points - average_points)/average_points
             population_change = int(algorithm_populations[algorithm] * point_ratio)
+
+            population_change = int(math.sqrt(abs(population_change)))
+
+            if point_ratio < 0:
+                population_change *= -1
+
             algorithm_populations[algorithm] += population_change
 
         nodes = []
