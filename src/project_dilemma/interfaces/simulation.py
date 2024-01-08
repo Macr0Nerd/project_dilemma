@@ -16,7 +16,6 @@ limitations under the License.
 from abc import abstractmethod
 from collections import Counter
 from collections.abc import Sequence
-from typing import Optional
 
 import project_dilemma.interfaces.base as pd_int_base
 import project_dilemma.interfaces.node as pd_int_node
@@ -74,7 +73,7 @@ class SimulationBase(pd_int_base.Base):
         return self._simulation_data
 
     @simulation_data.setter
-    def simulation_data(self, simulation_data: Optional[pd_int_base.Generations | pd_int_base.Simulations]):
+    def simulation_data(self, simulation_data: pd_int_base.Generations | pd_int_base.Simulations | None):
         if not simulation_data:
             self._simulation_data = {}
         else:

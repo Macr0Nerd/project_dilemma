@@ -15,7 +15,7 @@ limitations under the License.
 """
 from abc import abstractmethod
 from collections.abc import Sequence
-from typing import Optional, Self
+from typing import Self
 
 import project_dilemma.interfaces.base as pd_int_base
 
@@ -37,9 +37,9 @@ class Algorithm(pd_int_base.Base):
     ]
 
     algorithm_id: str
-    mutations: Optional[Sequence[type[Self]]] = None
+    mutations: Sequence[type[Self]] | None = None
 
-    def __init__(self, mutations: Optional[Sequence[type[Self]]] = None, **kwargs) -> None:
+    def __init__(self, mutations: Sequence[type[Self]] | None = None, **kwargs) -> None:
         self.mutations = mutations
 
     def __eq__(self, other: Self):
