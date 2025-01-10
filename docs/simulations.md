@@ -23,6 +23,12 @@ The parameters for configuring these simulations are:
   * How frequent mutations should occur as a per mille representation
     * i.e. 999 = 99.9%, 250 = 25.0%
 
+**NOTE**: The BasicSimulation passes the node ID to algorithms via a keyword argument.
+This is used by algorithms that must be able to identify themselves in prior round data (i.e. FirmButFair).
+If writing a simulation that does not utilize the BasicSimulation (al the built in ones do), then make sure to pass this
+otherwise these algorithms will not work.
+Or do not use these algorithms with such a simulation.
+
 # StandardSimulation
 This takes each node and pits it against each other node in multiple 1:1 matches, as is standard for the prisoner's
 dilemma.

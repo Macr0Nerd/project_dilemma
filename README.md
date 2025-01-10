@@ -103,8 +103,15 @@ Only four things must be done to subclass the Algorithm interface:
 5. Set mutations (optional)
 
 The `decide` function is what the simulation uses to run the algorithm.
-It accepts a `project_dilemma.interfaces.base.Rounds` object which can be used to get the results of prior rounds.
+It accepts a `project_dilemma.interfaces.base.Rounds` object which can be used to get the results of prior rounds, as
+well as kwargs.
 The function should return `True` for cooperation, and `False` for defection.
+
+**NOTE**: The BasicSimulation passes the node ID to algorithms via a keyword argument.
+This is used by algorithms that must be able to identify themselves in prior round data (i.e. FirmButFair).
+If writing a simulation that does not utilize the BasicSimulation (al the built in ones do), then make sure to pass this
+otherwise these algorithms will not work.
+This is accessible via the `node_id` keyword argument (can be defined as a keyword parameter or via kwargs).
 
 If you want to add mutations, set the static mutation list *after* defining the class as to avoid circular imports.
 

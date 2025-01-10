@@ -11,7 +11,7 @@ class AlgorithmTemplate(Algorithm):
         super().__init__(mutations)
 
     @staticmethod
-    def decide(rounds: Rounds) -> bool:
+    def decide(rounds: Rounds, **kwargs) -> bool:
         # Place algorithm here
         # Return true for cooperation, and false for defection
         raise NotImplementedError
