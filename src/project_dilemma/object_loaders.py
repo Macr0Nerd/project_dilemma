@@ -67,7 +67,7 @@ def load_algorithms(config: ProjectDilemmaConfig) -> dict[str, type[Algorithm]]:
             print(f"Algorithm file {algorithm['file']} could not be found")
             sys.exit(1)
 
-        algorithm_module = importlib.import_module(algorithm['file'].strip('.py'))
+        algorithm_module = importlib.import_module(algorithm['file'].replace('.py', ''))
         algorithm_map[algorithm['object']] = getattr(algorithm_module, algorithm['object'])
 
     return algorithm_map
