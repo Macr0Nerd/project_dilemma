@@ -7,7 +7,8 @@ nodes = [ { node_id = "always_cooperate_", algorithm = { file = "simple.py", obj
           { node_id = "tit_for_tat_", algorithm = { file = "tit_for_tat.py", object = "TitForTat" }, quantity = 10 },
           { node_id = "tit_for_two_tats_", algorithm = { file = "tit_for_tat.py", object = "TitForTwoTats" }, quantity = 10 },
           { node_id = "two_tits_for_tat_", algorithm = { file = "tit_for_tat.py", object = "TwoTitsForTat" }, quantity = 10 },
-          { node_id = "firm_but_fair_", algorithm = { file = "firm_but_fair.py", object = "FirmButFair" }, quantity = 10 } ]
+          { node_id = "firm_but_fair_", algorithm = { file = "firm_but_fair.py", object = "FirmButFair" }, quantity = 10 },
+          { node_id = "pavlov_", algorithm = { file = "pavlov.py", object = "Pavlov" },  quantity = 10 } ]
 simulation = { object = "StandardGenerationalSimulation" }
 generational_simulation = { object = 'MultiprocessStandardSimulation' }
 simulation_arguments = { generations = 10, rounds = 200, noise = true, noise_per_mille = 250, simulation_mutations = true, mutations_per_mille = 100, pool_size = 4 }
