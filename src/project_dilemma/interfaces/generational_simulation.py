@@ -20,10 +20,10 @@ class GenerationalSimulation(pd_int_simulation.SimulationBase):
     :vartype simulation_kwargs: MutableMapping[str, Any]
     """
     required_attributes = [
-        'generation_hook'
+        'generation_hook',
         'generations',
-        'generational_simulation'
-        'simulations_kwargs'
+        'generational_simulation',
+        'simulations_kwargs',
     ]
 
     generations: int
