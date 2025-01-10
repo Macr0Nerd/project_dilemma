@@ -40,7 +40,7 @@ def play_round(nodes: Sequence[type[Node]],
     """
     move: Round = {}
     for node in nodes:
-        move[node.node_id] = node.algorithm.decide(rounds)
+        move[node.node_id] = node.algorithm.decide(rounds, node_id=node.node_id)
 
         if round_mutations and random.randrange(0, 1000) < mutations_per_mille:
             node.mutate()
