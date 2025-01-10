@@ -11,7 +11,7 @@ class GrimTrigger(Algorithm):
         super().__init__(mutations)
 
     @staticmethod
-    def decide(rounds: Rounds) -> bool:
+    def decide(rounds: Rounds, **kwargs) -> bool:
         if not rounds:
             return True
 

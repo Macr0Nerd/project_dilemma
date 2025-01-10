@@ -47,11 +47,13 @@ class Algorithm(pd_int_base.Base):
 
     @staticmethod
     @abstractmethod
-    def decide(rounds: pd_int_base.Rounds) -> bool:
+    def decide(rounds: pd_int_base.Rounds, **kwargs) -> bool:
         """decide whether to cooperate or not
 
         :param rounds: the list of moves
         :type rounds: Rounds
+        :param kwargs: additional parameters
+        :type kwargs: dict
         :return: whether to cooperate or not
         :rtype: bool
         """

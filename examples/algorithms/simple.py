@@ -12,7 +12,7 @@ class AlwaysCooperate(Algorithm):
         super().__init__(mutations)
 
     @staticmethod
-    def decide(rounds: Rounds) -> bool:
+    def decide(rounds: Rounds, **kwargs) -> bool:
         return True
 
 
@@ -23,7 +23,7 @@ class AlwaysDefect(Algorithm):
         super().__init__(mutations)
 
     @staticmethod
-    def decide(rounds: Rounds) -> bool:
+    def decide(rounds: Rounds, **kwargs) -> bool:
         return False
 
 
@@ -34,7 +34,7 @@ class RandomCooperation(Algorithm):
         super().__init__(mutations)
 
     @staticmethod
-    def decide(rounds: Rounds) -> bool:
+    def decide(rounds: Rounds, **kwargs) -> bool:
         return random.choice([True, False])
 
 

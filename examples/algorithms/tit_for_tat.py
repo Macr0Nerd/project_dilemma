@@ -11,7 +11,7 @@ class TitForTat(Algorithm):
         super().__init__(mutations)
 
     @staticmethod
-    def decide(rounds: Rounds) -> bool:
+    def decide(rounds: Rounds, **kwargs) -> bool:
         if not rounds:
             return True
 
@@ -29,7 +29,7 @@ class TitForTwoTats(Algorithm):
         super().__init__(mutations)
 
     @staticmethod
-    def decide(rounds: Rounds) -> bool:
+    def decide(rounds: Rounds, **kwargs) -> bool:
         if not rounds:
             return True
 
@@ -51,7 +51,7 @@ class TwoTitsForTat(Algorithm):
         super().__init__(mutations)
 
     @staticmethod
-    def decide(rounds: Rounds) -> bool:
+    def decide(rounds: Rounds, **kwargs) -> bool:
         if not rounds:
             return True
 
