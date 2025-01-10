@@ -1,5 +1,5 @@
 """
-Copyright 2023 Gabriele Ron
+Copyright 2023-2025 Gabriele Ron
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
