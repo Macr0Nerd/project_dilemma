@@ -1,5 +1,5 @@
 from collections.abc import Sequence
-from typing import Self
+from typing import Type
 
 from project_dilemma.interfaces import Algorithm, Rounds
 
@@ -7,7 +7,7 @@ from project_dilemma.interfaces import Algorithm, Rounds
 class TitForTat(Algorithm):
     algorithm_id = 'tit_for_tat'
 
-    def __init__(self, mutations: Sequence[Self]):
+    def __init__(self, mutations: Sequence[Type[Algorithm]]):
         super().__init__(mutations)
 
     @staticmethod
@@ -25,7 +25,7 @@ class TitForTat(Algorithm):
 class TitForTwoTats(Algorithm):
     algorithm_id = 'tit_for_two_tats'
 
-    def __init__(self, mutations: Sequence[Self]):
+    def __init__(self, mutations: Sequence[Type[Algorithm]]):
         super().__init__(mutations)
 
     @staticmethod
@@ -34,7 +34,7 @@ class TitForTwoTats(Algorithm):
             return True
 
         tit_or_tat = []
-        for round in rounds[-2:]:
+        for round in rounds[-2:] if len(rounds) >= 2 else rounds:
             ratio = {True: 0, False: 0}
             for node_id, cooperation in round.items():
                 ratio[cooperation] += 1
@@ -47,7 +47,7 @@ class TitForTwoTats(Algorithm):
 class TwoTitsForTat(Algorithm):
     algorithm_id = 'two_tits_for_tat'
 
-    def __init__(self, mutations: Sequence[Self]):
+    def __init__(self, mutations: Sequence[Type[Algorithm]]):
         super().__init__(mutations)
 
     @staticmethod
@@ -56,7 +56,7 @@ class TwoTitsForTat(Algorithm):
             return True
 
         tit_or_tat = []
-        for round in rounds[-2:]:
+        for round in rounds[-2:] if len(rounds) >= 2 else rounds:
             ratio = {True: 0, False: 0}
             for node_id, cooperation in round.items():
                 ratio[cooperation] += 1
